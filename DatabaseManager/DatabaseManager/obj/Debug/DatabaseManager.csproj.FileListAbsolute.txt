@@ -1,0 +1,2 @@
+C:\Users\Vladan\Documents\university\semestar5\SNUS\projekat\snus-scada-system\DatabaseManager\DatabaseManager\obj\Debug\DatabaseManager.csprojAssemblyReference.cache
+C:\Users\Vladan\Documents\university\semestar5\SNUS\projekat\snus-scada-system\DatabaseManager\DatabaseManager\obj\Debug\DatabaseManager.csproj.CoreCompileInputs.cache
