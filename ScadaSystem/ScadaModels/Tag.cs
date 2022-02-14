@@ -11,10 +11,10 @@ namespace ScadaModels
     public class Tag
     {
         [DataMember]
-        private int TagName;
+        private int TagName { get; set; }
         [DataMember]
-        private string Description;
+        private string Description { get; set;}
         [DataMember]
-        private string IOAddress;
+        private string IOAddress { get; set;}
     }
 }

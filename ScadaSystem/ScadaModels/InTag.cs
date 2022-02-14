@@ -11,10 +11,10 @@ namespace ScadaModels
     public class InTag : Tag
     {
         [DataMember]
-        private Driver Driver;
+        private Driver Driver { get; set; }
         [DataMember]
-        private int ScanTime;
+        private int ScanTime { get; set;}
         [DataMember]
-        private bool OnOffScan;
+        private bool OnOffScan { get; set;}
     }
 }

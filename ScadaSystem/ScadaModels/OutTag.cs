@@ -11,6 +11,6 @@ namespace ScadaModels
     public class OutTag : Tag
     {
         [DataMember]
-        private long InitialValue;
+        private long InitialValue { get; set; }
     }
 }
