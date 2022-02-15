@@ -123,7 +123,7 @@ namespace ScadaSystem
             return true;
         }
 
-        public string Login(string username, string password)
+        public bool Login(string username, string password)
         {
             using (var db = new UsersContext())
             {
@@ -136,11 +136,11 @@ namespace ScadaSystem
                         {
                             authenticatedUsers.Add(token, user);    
                         }
-                        return token;
+                        return true;
                     }
                 }
             }
-            return "Login failed";
+            return false;
         }
 
         public bool Logout(string token)

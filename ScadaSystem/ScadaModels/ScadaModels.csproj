@@ -64,8 +64,10 @@
     <Compile Include="OutTag.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimulationDriver.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

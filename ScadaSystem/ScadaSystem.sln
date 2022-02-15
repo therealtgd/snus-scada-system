@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaModels", "ScadaModels\ScadaModels.csproj", "{F9B656B5-97E9-47C2-9F39-8A29CBA0D119}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseManager", "DatabaseManager\DatabaseManager.csproj", "{90D3B51A-9651-4170-BF3F-41E2A2C3E0A0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30E0D37D-FDE8-46B1-B180-2332A816C746} = {30E0D37D-FDE8-46B1-B180-2332A816C746}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

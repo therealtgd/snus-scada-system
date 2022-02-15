@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScadaModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,6 +13,6 @@ namespace ScadaSystem
     public interface ITrendingService
     {
         [OperationContract]
-        void DoWork();
+        List<InTag> getCurrentOutValues();
     }
 }
