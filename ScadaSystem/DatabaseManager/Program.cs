@@ -327,14 +327,14 @@ namespace DatabaseManager
 
         private void TurnScanOff()
         { 
-            string tagName = GetTagName();
+            string tagName = GetString("Tag name:", true);
             if (tagName != "")
                 client.TurnScanOff(tagName);
         }
 
         private void TurnScanOn()
         {
-            string tagName = GetTagName();
+            string tagName = GetString("Tag name:", true);
             if (tagName != "")
                 client.TurnScanOn(tagName);
         }
