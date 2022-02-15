@@ -27,7 +27,7 @@ namespace ScadaSystem
         [OperationContract]
         bool Registration(string username, string password);
         [OperationContract]
-        bool Login(string username, string password);
+        Tuple<bool, string> Login(string username, string password);
         [OperationContract]
         bool Logout(string token);
     }

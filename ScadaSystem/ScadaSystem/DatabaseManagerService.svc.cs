@@ -123,7 +123,7 @@ namespace ScadaSystem
             return true;
         }
 
-        public bool Login(string username, string password)
+        public Tuple<bool, string> Login(string username, string password)
         {
             using (var db = new UsersContext())
             {
@@ -136,11 +136,11 @@ namespace ScadaSystem
                         {
                             authenticatedUsers.Add(token, user);    
                         }
-                        return true;
+                        return new Tuple<bool, string>(true, token);
                     }
                 }
             }
-            return false;
+            return new Tuple<bool, string>(false, "Login failed");
         }
 
         public bool Logout(string token)

@@ -58,10 +58,10 @@ namespace DatabaseManager.ServiceReference {
         System.Threading.Tasks.Task<bool> RegistrationAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/Login", ReplyAction="http://tempuri.org/IDatabaseManagerService/LoginResponse")]
-        bool Login(string username, string password);
+        System.Tuple<bool, string> Login(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/Login", ReplyAction="http://tempuri.org/IDatabaseManagerService/LoginResponse")]
-        System.Threading.Tasks.Task<bool> LoginAsync(string username, string password);
+        System.Threading.Tasks.Task<System.Tuple<bool, string>> LoginAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/Logout", ReplyAction="http://tempuri.org/IDatabaseManagerService/LogoutResponse")]
         bool Logout(string token);
@@ -153,11 +153,11 @@ namespace DatabaseManager.ServiceReference {
             return base.Channel.RegistrationAsync(username, password);
         }
         
-        public bool Login(string username, string password) {
+        public System.Tuple<bool, string> Login(string username, string password) {
             return base.Channel.Login(username, password);
         }
         
-        public System.Threading.Tasks.Task<bool> LoginAsync(string username, string password) {
+        public System.Threading.Tasks.Task<System.Tuple<bool, string>> LoginAsync(string username, string password) {
             return base.Channel.LoginAsync(username, password);
         }
         

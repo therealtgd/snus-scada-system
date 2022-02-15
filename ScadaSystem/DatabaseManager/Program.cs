@@ -13,11 +13,12 @@ namespace DatabaseManager
         private static ServiceReference.DatabaseManagerServiceClient client = new ServiceReference.DatabaseManagerServiceClient();
         private bool showMainMenu = true;
         private bool isLoggedIn = false;
+        private string userToken;
 
         static void Main(string[] args)
         {
-            
-
+            Program program = new Program();
+            program.Run();
         }
 
         private void Run()
@@ -30,7 +31,8 @@ namespace DatabaseManager
                     ProgramMenu();
                 }
             }
-            
+            Console.WriteLine("Press any key to quit...");
+            Console.ReadKey();
         }
 
         private bool MainMenu()
@@ -348,7 +350,8 @@ namespace DatabaseManager
 
         private void Logout()
         {
-            throw new NotImplementedException();
+            if (isLoggedIn)
+                client.Logout(userToken);
         }
 
         private void ChangeOutputValue()
@@ -368,18 +371,30 @@ namespace DatabaseManager
             string password = Console.ReadLine();
             if (username != "" && password != "")
             {
-                isLoggedIn = client.Login(username, password);
+                Tuple<bool, string> parms = client.Login(username, password);
+                isLoggedIn = parms.Item1;
+                if (isLoggedIn)
+                {
+                    userToken = parms.Item2;
+                    Console.WriteLine("Login successful");
+                }
+                else
+                {
+                    Console.WriteLine("Login failed");
+                }
             }
         }
 
-        private static bool RegisterUser()
+        private static void RegisterUser()
         {
+            string username = "";
+            string password = "";
             bool register = true;
             while (register)
             {
                 Console.Clear();
                 Console.WriteLine("Username: ");
-                string username = Console.ReadLine();
+                username = Console.ReadLine();
                 if (username.ToLower() == "x") {
                     register = false;
                     break;
@@ -395,7 +410,7 @@ namespace DatabaseManager
             {
                 Console.Clear();
                 Console.WriteLine("Password: ");
-                string password = Console.ReadLine();
+                password = Console.ReadLine();
                 if (password.ToLower() == "x")
                 {
                     register = false;
@@ -408,7 +423,15 @@ namespace DatabaseManager
                 }
                 break;
             }
-            return register;
+            if (username != "" && password != "")
+            {
+                if (client.Registration(username, password))
+                {
+                    Console.WriteLine("Registration successful");
+                    return;
+                }
+            }
+            Console.WriteLine("Registration unsuccessful or canceled");
         }
 
         private static bool ValidUsername(string username)
