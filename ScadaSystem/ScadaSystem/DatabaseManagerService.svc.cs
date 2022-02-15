@@ -37,14 +37,33 @@ namespace ScadaSystem
             }
         }
 
-        public void ChangeOutputValue()
+        public void ChangeOutputValue(string name, double value)
         {
-            throw new NotImplementedException();
+            lock (tagsLocker)
+            {
+                if (tags.ContainsKey(name))
+                {
+                    if (tags[name] is OutTag)
+                    {
+                        ((OutTag)tags[name]).InitialValue = value;
+                    }
+                }
+            }
         }
 
-        public float GetOutputValue()
+        public double GetOutputValue(string name)
         {
-            throw new NotImplementedException();
+            lock (tagsLocker)
+            {
+                if (tags.ContainsKey(name))
+                {
+                    if (tags[name] is OutTag)
+                    {
+                        return ((OutTag)tags[name]).InitialValue;
+                    }
+                }
+                return -1;
+            }
         }
 
         public void TurnScanOn(string name)
