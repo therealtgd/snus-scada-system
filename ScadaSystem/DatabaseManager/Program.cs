@@ -25,7 +25,9 @@ namespace DatabaseManager
         {
             while (showMainMenu)
             {
-                showMainMenu = MainMenu();
+                //showMainMenu = MainMenu();
+                isLoggedIn = true;
+                userToken = "sdfsdfs";
                 while (isLoggedIn)
                 {
                     ProgramMenu();

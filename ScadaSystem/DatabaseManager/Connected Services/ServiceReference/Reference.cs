@@ -40,6 +40,12 @@ namespace DatabaseManager.ServiceReference {
         System.Threading.Tasks.Task TurnScanOffAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddTagResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.InTag))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.AI))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.DI))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.OutTag))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.AO))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.DO))]
         void AddTag(ScadaModels.Tag newTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddTagResponse")]

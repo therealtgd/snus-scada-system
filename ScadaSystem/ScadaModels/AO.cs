@@ -10,8 +10,11 @@ namespace ScadaModels
     [DataContract]
     public class AO : OutTag
     {
+        [DataMember]
         public double LowLimit { get; set; }
-        public double HighLimit { get; set;}
+        [DataMember]
+        public double HighLimit { get; set; }
+        [DataMember]
         public string Units { get; set;}
     }
 }

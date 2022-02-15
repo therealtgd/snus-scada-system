@@ -127,6 +127,7 @@ namespace ScadaSystem
         {
             using (var db = new UsersContext())
             {
+                Registration("admin", "admin");
                 foreach (var user in db.Users)
                 {
                     if (username == user.Username && ValidateEncryptedData(password, user.EncryptedPassword))

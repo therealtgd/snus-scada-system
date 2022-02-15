@@ -8,4 +8,82 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Tag" nillable="true" type="tns:Tag" />
+  <xs:complexType name="AI">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:InTag">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Alarms" nillable="true" type="tns:ArrayOfAlarm" />
+          <xs:element minOccurs="0" name="HighLimit" type="xs:double" />
+          <xs:element minOccurs="0" name="LowLimit" type="xs:double" />
+          <xs:element minOccurs="0" name="Units" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AI" nillable="true" type="tns:AI" />
+  <xs:complexType name="InTag">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Tag">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Driver" nillable="true" type="xs:anyType" />
+          <xs:element minOccurs="0" name="ScanEnabled" type="xs:boolean" />
+          <xs:element minOccurs="0" name="ScanTime" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="InTag" nillable="true" type="tns:InTag" />
+  <xs:complexType name="SimulationDriver">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="SimulationDriver" nillable="true" type="tns:SimulationDriver" />
+  <xs:complexType name="AO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:OutTag">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="HighLimit" type="xs:double" />
+          <xs:element minOccurs="0" name="LowLimit" type="xs:double" />
+          <xs:element minOccurs="0" name="Units" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AO" nillable="true" type="tns:AO" />
+  <xs:complexType name="OutTag">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Tag">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="InitialValue" type="xs:double" />
+          <xs:element minOccurs="0" name="Value" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OutTag" nillable="true" type="tns:OutTag" />
+  <xs:complexType name="DI">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:InTag">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DI" nillable="true" type="tns:DI" />
+  <xs:complexType name="DO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:OutTag">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DO" nillable="true" type="tns:DO" />
+  <xs:complexType name="ArrayOfAlarm">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Alarm" nillable="true" type="tns:Alarm" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAlarm" nillable="true" type="tns:ArrayOfAlarm" />
+  <xs:complexType name="Alarm">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Alarm" nillable="true" type="tns:Alarm" />
 </xs:schema>

@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 namespace ScadaModels
 {
     [DataContract]
+    [KnownType(typeof(AI))]
+    [KnownType(typeof(AO))]
+    [KnownType(typeof(DI))]
+    [KnownType(typeof(DO))]
     public class Tag
     {
         //public Tag(string name, string description, string ioaddress)

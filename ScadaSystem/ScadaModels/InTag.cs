@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace ScadaModels
 {
     [DataContract]
+    [KnownType(typeof(IDriver))]
+    [KnownType(typeof(SimulationDriver))]
     public class InTag : Tag
     {
         [DataMember]
