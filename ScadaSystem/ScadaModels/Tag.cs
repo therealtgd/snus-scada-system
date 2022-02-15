@@ -10,6 +10,13 @@ namespace ScadaModels
     [DataContract]
     public class Tag
     {
+        //public Tag(string name, string description, string ioaddress)
+        //{
+        //    Name = name;
+        //    Description = description;
+        //    IOAddress = ioaddress;
+        //}
+
         [DataMember]
         public string Name { get; set; }
         [DataMember]

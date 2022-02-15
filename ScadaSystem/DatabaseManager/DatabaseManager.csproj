@@ -87,5 +87,11 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScadaModels\ScadaModels.csproj">
+      <Project>{F9B656B5-97E9-47C2-9F39-8A29CBA0D119}</Project>
+      <Name>ScadaModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -128,35 +128,89 @@ namespace DatabaseManager
                     AOMenu();
                     break;
                 default:
-                    return true;
+                    break;
             }
         }
 
         private void AOMenu()
         {
-            throw new NotImplementedException();
+            string name = GetString("Name:", true);
+            string description = GetString("Description:", false);
+            string ioaddress = GetString("I/O Address:", true);
+            double initValue = GetDouble("Initial value:");
+            double lowLimit = GetDouble("Low limit:");
+            double hightLimit = GetDouble("High limit:");
+            string units = GetString("Units:", false);
+
+            AO tag = new AO()
+            {
+                Name = name,
+                Description = description,
+                IOAddress = ioaddress,
+                InitialValue = initValue,
+                LowLimit = lowLimit,
+                HighLimit = hightLimit,
+                Units = units
+            };
+            client.AddTag(tag);
         }
 
         private void AIMenu()
         {
-            throw new NotImplementedException();
+            string name = GetString("Name:", true);
+            string description = GetString("Description:", false);
+            IDriver driver = GetTagDriver();
+            string ioaddress = GetString("I/O Address:", true);
+            int scanTime = GetTagScanTime();
+            bool scanEnabled = GetTagScanEnabled();
+            List<Alarm> alarms = GetTagAlarmsList();
+            double lowLimit = GetDouble("Low limit:");
+            double hightLimit = GetDouble("High limit:");
+            string units = GetString("Units:", false);
+
+            AI tag = new AI()
+            {
+                Name = name,
+                Description = description,
+                Driver = driver,
+                IOAddress = ioaddress,
+                ScanTime = scanTime,
+                ScanEnabled = scanEnabled,
+                Alarms = alarms,
+                LowLimit = lowLimit,
+                HighLimit = hightLimit,
+                Units = units
+            };
+            client.AddTag(tag);
         }
 
         private void DOMenu()
         {
-            throw new NotImplementedException();
+            string name = GetString("Name:", true);
+            string description = GetString("Description:", false);
+            string ioaddress = GetString("I/O Address:", true);
+            double initialValue = GetDouble("Initial value:");
+
+            DO tag = new DO()
+            {
+                Name = name,
+                Description = description,
+                IOAddress = ioaddress,
+                InitialValue = initialValue,
+            };
+            client.AddTag(tag);
         }
 
         private void DIMenu()
         {
-            string name = GetTagName();
-            string description = GetTagDescription();
+            string name = GetString("Name:", true);
+            string description = GetString("Description:", false);
             IDriver driver = GetTagDriver();
-            string ioaddress = GetTagIOAddress();
+            string ioaddress = GetString("I/O Address:", true);
             int scanTime = GetTagScanTime();
             bool scanEnabled = GetTagScanEnabled();
 
-            Tag tag = new DI() {
+            DI tag = new DI() {
                 Name = name,
                 Description = description,
                 Driver = driver,
@@ -164,9 +218,57 @@ namespace DatabaseManager
                 ScanTime = scanTime,
                 ScanEnabled = scanEnabled
             };
-            if (client.AddTag(tag));
+            client.AddTag(tag);
 
         }
+
+        private string GetString(string message, bool required)
+        {
+            Func<string, string> getStr = (m) =>
+            {
+                Console.Clear();
+                Console.WriteLine(m);
+                return Console.ReadLine();
+            };
+
+            if (!required)
+                return getStr(message);
+            else
+            {
+                while (required)
+                {
+                    Console.Clear();
+                    Console.WriteLine("I/O Address*: ");
+                    string ioaddress = getStr(message);
+                    if (ioaddress != "") return ioaddress; else continue;
+                }
+            }
+            return "";
+        }
+
+        private double GetDouble(string message)
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine(message);
+                string valStr = Console.ReadLine();
+                double val;
+                if (double.TryParse(valStr, out val))
+                    return val;
+                else
+                {
+                    Console.WriteLine("Invalid value. Try again.");
+                    continue;
+                }
+            }
+        }
+
+        private List<Alarm> GetTagAlarmsList()
+        {
+            throw new NotImplementedException();
+        }
+
 
         private bool GetTagScanEnabled()
         {
@@ -207,17 +309,6 @@ namespace DatabaseManager
             
         }  
 
-        private string GetTagIOAddress()
-        {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("I/O Address*: ");
-                string ioaddress = Console.ReadLine();
-                if (ioaddress != "") return ioaddress; else continue;
-            }
-        }
-
         private IDriver GetTagDriver()
         {
             while (true)
@@ -227,25 +318,6 @@ namespace DatabaseManager
                 string driver = Console.ReadLine();
                 if (driver != "") return new SimulationDriver(); else continue;
             }
-        }
-
-        private string GetTagDescription()
-        {
-            Console.Clear();
-            Console.WriteLine("Description: ");
-            return Console.ReadLine();
-        }
-
-        private static string GetTagName()
-        {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Tag name*: ");
-                string name = Console.ReadLine();
-                if (name != "") return name; else continue;
-            }
-          
         }
 
         private void RemoveTag()

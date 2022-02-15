@@ -9,86 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace DatabaseManager.ServiceReference {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Tag", Namespace="http://schemas.datacontract.org/2004/07/ScadaModels")]
-    [System.SerializableAttribute()]
-    public partial class Tag : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string DescriptionField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string IOAddressField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Description {
-            get {
-                return this.DescriptionField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
-                    this.DescriptionField = value;
-                    this.RaisePropertyChanged("Description");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string IOAddress {
-            get {
-                return this.IOAddressField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.IOAddressField, value) != true)) {
-                    this.IOAddressField = value;
-                    this.RaisePropertyChanged("IOAddress");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.IDatabaseManagerService")]
@@ -119,10 +40,10 @@ namespace DatabaseManager.ServiceReference {
         System.Threading.Tasks.Task TurnScanOffAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddTagResponse")]
-        void AddTag(DatabaseManager.ServiceReference.Tag newTag);
+        void AddTag(ScadaModels.Tag newTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddTagResponse")]
-        System.Threading.Tasks.Task AddTagAsync(DatabaseManager.ServiceReference.Tag newTag);
+        System.Threading.Tasks.Task AddTagAsync(ScadaModels.Tag newTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/RemoveTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/RemoveTagResponse")]
         void RemoveTag(string name);
@@ -208,11 +129,11 @@ namespace DatabaseManager.ServiceReference {
             return base.Channel.TurnScanOffAsync(name);
         }
         
-        public void AddTag(DatabaseManager.ServiceReference.Tag newTag) {
+        public void AddTag(ScadaModels.Tag newTag) {
             base.Channel.AddTag(newTag);
         }
         
-        public System.Threading.Tasks.Task AddTagAsync(DatabaseManager.ServiceReference.Tag newTag) {
+        public System.Threading.Tasks.Task AddTagAsync(ScadaModels.Tag newTag) {
             return base.Channel.AddTagAsync(newTag);
         }
         

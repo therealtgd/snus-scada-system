@@ -11,9 +11,9 @@ namespace ScadaModels
     public class AI : InTag
     {
         [DataMember]
-        public long LowLimit { get; set; }
+        public double LowLimit { get; set; }
         [DataMember]
-        public long HighLimit { get; set;}
+        public double HighLimit { get; set;}
         [DataMember]
         public string Units { get; set;}
         [DataMember]
