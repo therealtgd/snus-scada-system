@@ -1,11 +1,13 @@
 ﻿using ScadaModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace ScadaSystem
 {
@@ -13,11 +15,15 @@ namespace ScadaSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select DatabaseManagerService.svc or DatabaseManagerService.svc.cs at the Solution Explorer and start debugging.
     public class DatabaseManagerService : IDatabaseManagerService
     {
+        private const string XML_FILE = "scadaConfig.xml"; 
+
         private static Dictionary<string, User> authenticatedUsers = new Dictionary<string, User>();
         private static readonly object usersLocker = new object();
 
         private static Dictionary<string, Tag> tags = new Dictionary<string, Tag>();
         private static readonly object tagsLocker = new object();
+
+        private static IDriver simulationDriver = new SimulationDriver();
 
         public void AddTag(Tag newTag)
         {
@@ -188,6 +194,56 @@ namespace ScadaSystem
             crypto.GetBytes(randVal);
             string randStr = Convert.ToBase64String(randVal);
             return username + randStr;
+        }
+
+        public static void XmlSerialisation()
+        {
+            using (var writer = new StreamWriter(XML_FILE))
+            {
+                var serializer = new XmlSerializer(typeof(List<Tag>));
+                serializer.Serialize(writer, tags.Values.ToList());
+                Console.WriteLine("Serialization finished");
+            }
+
+        }
+
+        public void XmlDeserialisation()
+        {
+            if (!File.Exists(XML_FILE))
+            {
+                Console.WriteLine("File doesn't exist");
+            }
+            else
+            {
+                using (var reader = new StreamReader(XML_FILE))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Tag>));
+                    var tagsList = (List<Tag>)serializer.Deserialize(reader);
+
+                    if ((bool)(tags?.Any()))
+                    {
+                        foreach (Tag tag in tagsList)
+                        {
+                            if (tag is InTag)
+                            {
+                                simulationDriver = ((InTag)tag).Driver;
+                                break;
+                            }
+                        }
+                    }
+                    lock (tagsLocker)
+                    { 
+                        if (tagsList != null)
+                        {
+                            tags = tagsList.ToDictionary(tag => tag.Name);
+                        }
+                    }
+                }
+            }
+            if (simulationDriver == null)
+            {
+                simulationDriver = new SimulationDriver();
+            }
         }
 
     }
