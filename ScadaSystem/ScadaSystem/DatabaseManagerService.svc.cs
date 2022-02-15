@@ -45,7 +45,7 @@ namespace ScadaSystem
                 {
                     if (tags[name] is OutTag)
                     {
-                        ((OutTag)tags[name]).InitialValue = value;
+                        ((OutTag)tags[name]).Value = value;
                     }
                 }
             }
@@ -59,7 +59,7 @@ namespace ScadaSystem
                 {
                     if (tags[name] is OutTag)
                     {
-                        return ((OutTag)tags[name]).InitialValue;
+                        return ((OutTag)tags[name]).Value;
                     }
                 }
                 return -1;

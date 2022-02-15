@@ -12,5 +12,7 @@ namespace ScadaModels
     {
         [DataMember]
         public double InitialValue { get; set; }
+        [DataMember]
+        public double Value { get; set; }
     }
 }
