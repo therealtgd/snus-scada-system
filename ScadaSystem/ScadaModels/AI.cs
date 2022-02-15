@@ -11,12 +11,12 @@ namespace ScadaModels
     public class AI : InTag
     {
         [DataMember]
-        private long LowLimit { get; set; }
+        public long LowLimit { get; set; }
         [DataMember]
-        private long HighLimit { get; set;}
+        public long HighLimit { get; set;}
         [DataMember]
-        private string Units { get; set;}
+        public string Units { get; set;}
         [DataMember]
-        private List<Alarm> Alarms { get; set;}
+        public List<Alarm> Alarms { get; set;}
     }
 }

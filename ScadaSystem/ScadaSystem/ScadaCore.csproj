@@ -61,13 +61,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service1.svc" />
+    <Content Include="CoreService.svc" />
+    <Content Include="DatabaseManagerService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
+    <Compile Include="CoreService.svc.cs">
+      <DependentUpon>CoreService.svc</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseManagerService.svc.cs">
+      <DependentUpon>DatabaseManagerService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="IDatabaseManagerService.cs" />
     <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -81,6 +86,12 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScadaModels\ScadaModels.csproj">
+      <Project>{F9B656B5-97E9-47C2-9F39-8A29CBA0D119}</Project>
+      <Name>ScadaModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

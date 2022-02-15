@@ -1,26 +1,27 @@
-﻿using System;
+﻿using ScadaModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ScadaSystem
 {
     [ServiceContract]
-    interface IDatabaseManager
+    public interface IDatabaseManagerService
     {
         [OperationContract]
-        void ChangeOutputValue(); 
+        void ChangeOutputValue();
         [OperationContract]
         float GetOutputValue();
         [OperationContract]
-        void TurnScanOn();
+        void TurnScanOn(string name);
         [OperationContract]
-        void TurnScanOff(); 
+        void TurnScanOff(string name);
         [OperationContract]
-        void AddTag();
+        void AddTag(Tag newTag);
         [OperationContract]
-        void RemoveTag();
+        void RemoveTag(string name);
     }
 }
