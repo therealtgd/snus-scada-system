@@ -52,6 +52,7 @@ namespace ScadaSystem
             lock (tagsLocker)
             {
                 if (tags.ContainsKey(name))
+                {
                 
                     if (tags[name] is OutTag)
                     {
