@@ -156,7 +156,7 @@ namespace DatabaseManager
                 HighLimit = hightLimit,
                 Units = units
             };
-            client.AddTag(tag);
+            AddTag(tag);
         }
 
         private void AIMenu()
@@ -185,7 +185,7 @@ namespace DatabaseManager
                 HighLimit = hightLimit,
                 Units = units
             };
-            client.AddTag(tag);
+            AddTag(tag);
         }
 
         private void DOMenu()
@@ -202,7 +202,7 @@ namespace DatabaseManager
                 IOAddress = ioaddress,
                 InitialValue = initialValue,
             };
-            client.AddTag(tag);
+            AddTag(tag);
         }
 
         private void DIMenu()
@@ -214,7 +214,8 @@ namespace DatabaseManager
             int scanTime = GetTagScanTime();
             bool scanEnabled = GetTagScanEnabled();
 
-            DI tag = new DI() {
+            DI tag = new DI()
+            {
                 Name = name,
                 Description = description,
                 Driver = driver,
@@ -222,8 +223,14 @@ namespace DatabaseManager
                 ScanTime = scanTime,
                 ScanEnabled = scanEnabled
             };
-            client.AddTag(tag);
+            AddTag(tag);
 
+        }
+
+        private static void AddTag(Tag tag)
+        {
+            client.AddTag(tag);
+            Console.WriteLine($"Added tag with name: {tag.Name}");
         }
 
         private string GetString(string message, bool required)
@@ -243,8 +250,8 @@ namespace DatabaseManager
                 {
                     Console.Clear();
                     Console.WriteLine("I/O Address*: ");
-                    string ioaddress = getStr(message);
-                    if (ioaddress != "") return ioaddress; else continue;
+                    string val = getStr(message);
+                    if (val != "") return val; else continue;
                 }
             }
             return "";
@@ -326,7 +333,9 @@ namespace DatabaseManager
 
         private void RemoveTag()
         {
-            throw new NotImplementedException();
+            string tagName = GetString("Tag name:", true);
+            client.RemoveTag(tagName);
+            Console.WriteLine($"Removed tag with name: {tagName}");
         }
 
         private void TurnScanOff()
