@@ -23,5 +23,12 @@ namespace ScadaSystem
         void AddTag(Tag newTag);
         [OperationContract]
         void RemoveTag(string name);
+
+        [OperationContract]
+        bool Registration(string username, string password);
+        [OperationContract]
+        string Login(string username, string password);
+        [OperationContract]
+        bool Logout(string token);
     }
 }
