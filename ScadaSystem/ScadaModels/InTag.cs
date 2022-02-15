@@ -11,7 +11,7 @@ namespace ScadaModels
     public class InTag : Tag
     {
         [DataMember]
-        public Driver Driver { get; set; }
+        public IDriver Driver { get; set; }
         [DataMember]
         public int ScanTime { get; set;}
         [DataMember]

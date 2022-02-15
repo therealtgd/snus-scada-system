@@ -2,8 +2,8 @@
 
 namespace ScadaModels
 {
-    [DataContract]
-    public class Driver
+    public interface IDriver
     {
+        double ReturnValue(string address);
     }
 }
