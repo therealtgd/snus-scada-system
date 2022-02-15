@@ -52,10 +52,13 @@ namespace ScadaSystem
             lock (tagsLocker)
             {
                 if (tags.ContainsKey(name))
-                {
+                
                     if (tags[name] is OutTag)
                     {
-                        ((OutTag)tags[name]).Value = value;
+                        if (tags[name] is AO)       
+                            ((AO)tags[name]).Value = value;
+                        else if (tags[name] is DO && (value == 1 || value == 0))
+                            ((DO)tags[name]).Value = value;
                     }
                 }
             }
