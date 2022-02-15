@@ -266,7 +266,7 @@ namespace DatabaseManager
 
         private List<Alarm> GetTagAlarmsList()
         {
-            throw new NotImplementedException();
+            return new List<Alarm>();
         }
 
 
