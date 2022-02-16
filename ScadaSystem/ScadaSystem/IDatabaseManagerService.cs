@@ -16,13 +16,13 @@ namespace ScadaSystem
         [OperationContract]
         double GetOutputValue(string name);
         [OperationContract]
-        void TurnScanOn(string name);
+        bool TurnScanOn(string name);
         [OperationContract]
-        void TurnScanOff(string name);
+        bool TurnScanOff(string name);
         [OperationContract]
-        void AddTag(Tag newTag);
+        bool AddTag(Tag newTag);
         [OperationContract]
-        void RemoveTag(string name);
+        bool RemoveTag(string name);
 
         [OperationContract]
         bool Registration(string username, string password);

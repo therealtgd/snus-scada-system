@@ -25,19 +25,17 @@ namespace DatabaseManager
         {
             while (showMainMenu)
             {
-                //showMainMenu = MainMenu();
-                isLoggedIn = true;
-                userToken = "sdfsdfs";
+                MainMenu();
+                //isLoggedIn = true;
+                //userToken = "admin/lnXWiMvewaBUmywRhWZrjeWDFCratlQtSHrresS8F8=";
                 while (isLoggedIn)
                 {
                     ProgramMenu();
                 }
             }
-            Console.WriteLine("Press any key to quit...");
-            Console.ReadKey();
         }
 
-        private bool MainMenu()
+        private void MainMenu()
         {
             Console.Clear();
             Console.WriteLine("Choose an option:");
@@ -49,15 +47,16 @@ namespace DatabaseManager
             {
                 case "1":
                     Login();
-                    return !isLoggedIn;
+                    break;
                 case "x":
-                    return false;
+                    showMainMenu = false;
+                    break;
                 default:
-                    return true;
+                    break;
             }
         }
 
-        private bool ProgramMenu()
+        private void ProgramMenu()
         {
             Console.Clear();
             Console.WriteLine("Choose an option:");
@@ -76,34 +75,34 @@ namespace DatabaseManager
             {
                 case "1":
                     ChangeOutputValue();
-                    return true;
+                    break;
                 case "2":
                     GetOutputValue();
-                    return true;
+                    break;
                 case "3":
                     TurnScanOn();
-                    return true;
+                    break;
                 case "4":
                     TurnScanOff();
-                    return true;
+                    break;
                 case "5":
                     AddTagMenu();
-                    return true;
+                    break;
                 case "6":
                     RemoveTag();
-                    return true;
+                    break;
                 case "7":
                     RegisterUser();
-                    return true;
+                    break;
                 case "0":
                     Logout();
-                    return false;
+                    break;
                 case "x":
                     Logout();
                     showMainMenu = false;
-                    return false;
+                    break;
                 default:
-                    return true;
+                    break;
             }
         }
 
@@ -229,8 +228,10 @@ namespace DatabaseManager
 
         private static void AddTag(Tag tag)
         {
-            client.AddTag(tag);
-            Console.WriteLine($"Added tag with name: {tag.Name}");
+            if (client.AddTag(tag))
+                DisplayMessage($"Added tag with name: {tag.Name}", true);
+            else
+                DisplayMessage($"Failed to add tag with name: {tag.Name}", true);
         }
 
         private string GetString(string message, bool required = false)
@@ -372,22 +373,28 @@ namespace DatabaseManager
         private void RemoveTag()
         {
             string tagName = GetString("Tag name:", true);
-            client.RemoveTag(tagName);
-            Console.WriteLine($"Removed tag with name: {tagName}");
+            if (client.RemoveTag(tagName))
+                DisplayMessage($"Removed tag with name: {tagName}", true);
+            else
+                DisplayMessage($"Failed to remove tag with name: {tagName}", true);
         }
 
         private void TurnScanOff()
         { 
             string tagName = GetString("Tag name:", true);
-            if (tagName != "")
-                client.TurnScanOff(tagName);
+            if (client.TurnScanOff(tagName))
+                DisplayMessage($"Turned scan off, tag: {tagName}", true);
+            else
+                DisplayMessage($"Failed to turn scan off, tag: {tagName}", true);
         }
 
         private void TurnScanOn()
         {
             string tagName = GetString("Tag name:", true);
-            if (tagName != "")
-                client.TurnScanOn(tagName);
+            if (client.TurnScanOn(tagName))
+                DisplayMessage($"Turned scan off, tag: {tagName}", true);
+            else
+                DisplayMessage($"Failed to turn scan off, tag: {tagName}", true);
         }
 
         
@@ -400,7 +407,7 @@ namespace DatabaseManager
         private void Logout()
         {
             if (isLoggedIn)
-                client.Logout(userToken);
+                isLoggedIn = !client.Logout(userToken);
         }
 
         private void ChangeOutputValue()
@@ -414,7 +421,7 @@ namespace DatabaseManager
                 DisplayMessage("Tag not found or value invalid.", true);
         }
 
-        private static void DisplayMessage(string message, bool keyToContinue)
+        private static void DisplayMessage(string message, bool keyToContinue = false)
         {
             Console.WriteLine(message);
             if (keyToContinue)

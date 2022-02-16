@@ -40,7 +40,9 @@
   </xs:element>
   <xs:element name="TurnScanOnResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TurnScanOnResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="TurnScanOff">
@@ -52,7 +54,9 @@
   </xs:element>
   <xs:element name="TurnScanOffResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TurnScanOffResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddTag">
@@ -64,7 +68,9 @@
   </xs:element>
   <xs:element name="AddTagResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddTagResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RemoveTag">
@@ -76,7 +82,9 @@
   </xs:element>
   <xs:element name="RemoveTagResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RemoveTagResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Registration">

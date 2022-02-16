@@ -28,16 +28,16 @@ namespace DatabaseManager.ServiceReference {
         System.Threading.Tasks.Task<double> GetOutputValueAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/TurnScanOn", ReplyAction="http://tempuri.org/IDatabaseManagerService/TurnScanOnResponse")]
-        void TurnScanOn(string name);
+        bool TurnScanOn(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/TurnScanOn", ReplyAction="http://tempuri.org/IDatabaseManagerService/TurnScanOnResponse")]
-        System.Threading.Tasks.Task TurnScanOnAsync(string name);
+        System.Threading.Tasks.Task<bool> TurnScanOnAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/TurnScanOff", ReplyAction="http://tempuri.org/IDatabaseManagerService/TurnScanOffResponse")]
-        void TurnScanOff(string name);
+        bool TurnScanOff(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/TurnScanOff", ReplyAction="http://tempuri.org/IDatabaseManagerService/TurnScanOffResponse")]
-        System.Threading.Tasks.Task TurnScanOffAsync(string name);
+        System.Threading.Tasks.Task<bool> TurnScanOffAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddTagResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.InTag))]
@@ -46,16 +46,16 @@ namespace DatabaseManager.ServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.OutTag))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.AO))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.DO))]
-        void AddTag(ScadaModels.Tag newTag);
+        bool AddTag(ScadaModels.Tag newTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddTagResponse")]
-        System.Threading.Tasks.Task AddTagAsync(ScadaModels.Tag newTag);
+        System.Threading.Tasks.Task<bool> AddTagAsync(ScadaModels.Tag newTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/RemoveTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/RemoveTagResponse")]
-        void RemoveTag(string name);
+        bool RemoveTag(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/RemoveTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/RemoveTagResponse")]
-        System.Threading.Tasks.Task RemoveTagAsync(string name);
+        System.Threading.Tasks.Task<bool> RemoveTagAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/Registration", ReplyAction="http://tempuri.org/IDatabaseManagerService/RegistrationResponse")]
         bool Registration(string username, string password);
@@ -119,35 +119,35 @@ namespace DatabaseManager.ServiceReference {
             return base.Channel.GetOutputValueAsync(name);
         }
         
-        public void TurnScanOn(string name) {
-            base.Channel.TurnScanOn(name);
+        public bool TurnScanOn(string name) {
+            return base.Channel.TurnScanOn(name);
         }
         
-        public System.Threading.Tasks.Task TurnScanOnAsync(string name) {
+        public System.Threading.Tasks.Task<bool> TurnScanOnAsync(string name) {
             return base.Channel.TurnScanOnAsync(name);
         }
         
-        public void TurnScanOff(string name) {
-            base.Channel.TurnScanOff(name);
+        public bool TurnScanOff(string name) {
+            return base.Channel.TurnScanOff(name);
         }
         
-        public System.Threading.Tasks.Task TurnScanOffAsync(string name) {
+        public System.Threading.Tasks.Task<bool> TurnScanOffAsync(string name) {
             return base.Channel.TurnScanOffAsync(name);
         }
         
-        public void AddTag(ScadaModels.Tag newTag) {
-            base.Channel.AddTag(newTag);
+        public bool AddTag(ScadaModels.Tag newTag) {
+            return base.Channel.AddTag(newTag);
         }
         
-        public System.Threading.Tasks.Task AddTagAsync(ScadaModels.Tag newTag) {
+        public System.Threading.Tasks.Task<bool> AddTagAsync(ScadaModels.Tag newTag) {
             return base.Channel.AddTagAsync(newTag);
         }
         
-        public void RemoveTag(string name) {
-            base.Channel.RemoveTag(name);
+        public bool RemoveTag(string name) {
+            return base.Channel.RemoveTag(name);
         }
         
-        public System.Threading.Tasks.Task RemoveTagAsync(string name) {
+        public System.Threading.Tasks.Task<bool> RemoveTagAsync(string name) {
             return base.Channel.RemoveTagAsync(name);
         }
         

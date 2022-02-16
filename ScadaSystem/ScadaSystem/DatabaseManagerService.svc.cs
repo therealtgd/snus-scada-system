@@ -34,7 +34,7 @@ namespace ScadaSystem
             XmlDeserialisation();
         }
 
-        public void AddTag(Tag newTag)
+        public bool AddTag(Tag newTag)
         {
             lock (tagsLocker)
             {
@@ -46,20 +46,21 @@ namespace ScadaSystem
                         {
                             tags.Add(newTag.Name, newTag);
                             XmlSerialisation();
+                            return true;
                         }
                     }
                     else
                     {
                         tags.Add(newTag.Name, newTag);
                         XmlSerialisation();
+                        return true;
                     }
-                        
-                    
                 }
             }
+            return false;
         }
         
-        public void RemoveTag(string name)
+        public bool RemoveTag(string name)
         {
             lock (tagsLocker)
             {
@@ -67,8 +68,10 @@ namespace ScadaSystem
                 {
                     tags.Remove(name);
                     XmlSerialisation();
+                    return true;
                 }
             }
+            return false;
         }
 
         public bool ChangeOutputValue(string name, double value)
@@ -114,7 +117,7 @@ namespace ScadaSystem
             }
         }
 
-        public void TurnScanOn(string name)
+        public bool TurnScanOn(string name)
         {
             lock (tagsLocker)
             {
@@ -124,12 +127,14 @@ namespace ScadaSystem
                     {
                         ((InTag)tags[name]).ScanEnabled = true;
                         XmlSerialisation();
+                        return true;
                     }
                 }
             }
+            return false;
         }
 
-        public void TurnScanOff(string name)
+        public bool TurnScanOff(string name)
         {
             lock (tagsLocker)
             {
@@ -139,9 +144,11 @@ namespace ScadaSystem
                     {
                         ((InTag)tags[name]).ScanEnabled = false;
                         XmlSerialisation();
+                        return true;
                     }
                 }
             }
+            return false;
         }
 
         public bool Registration(string username, string password)
