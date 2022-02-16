@@ -4,16 +4,15 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ScadaModels
 {
     [DataContract]
-    [KnownType(typeof(IDriver))]
-    [KnownType(typeof(SimulationDriver))]
     public class InTag : Tag
     {
         [DataMember]
-        public IDriver Driver { get; set; }
+        public string Driver { get; set; }
         [DataMember]
         public int ScanTime { get; set;}
         [DataMember]

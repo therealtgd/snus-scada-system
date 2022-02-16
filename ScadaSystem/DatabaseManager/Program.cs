@@ -139,12 +139,12 @@ namespace DatabaseManager
         private void AOMenu()
         {
             string name = GetString("Name:", true);
-            string description = GetString("Description:", false);
+            string description = GetString("Description:");
             string ioaddress = GetString("I/O Address:", true);
             double initValue = GetDouble("Initial value:");
             double lowLimit = GetDouble("Low limit:");
             double hightLimit = GetDouble("High limit:");
-            string units = GetString("Units:", false);
+            string units = GetString("Units:");
 
             AO tag = new AO()
             {
@@ -162,15 +162,15 @@ namespace DatabaseManager
         private void AIMenu()
         {
             string name = GetString("Name:", true);
-            string description = GetString("Description:", false);
-            IDriver driver = GetTagDriver();
+            string description = GetString("Description:");
+            string driver = GetString("Driver:", true);
             string ioaddress = GetString("I/O Address:", true);
             int scanTime = GetTagScanTime();
             bool scanEnabled = GetTagScanEnabled();
             List<Alarm> alarms = GetTagAlarmsList();
             double lowLimit = GetDouble("Low limit:");
             double hightLimit = GetDouble("High limit:");
-            string units = GetString("Units:", false);
+            string units = GetString("Units:");
 
             AI tag = new AI()
             {
@@ -191,7 +191,7 @@ namespace DatabaseManager
         private void DOMenu()
         {
             string name = GetString("Name:", true);
-            string description = GetString("Description:", false);
+            string description = GetString("Description:");
             string ioaddress = GetString("I/O Address:", true);
             double initialValue = GetBinary("Initial value (0 or 1):");
 
@@ -208,8 +208,8 @@ namespace DatabaseManager
         private void DIMenu()
         {
             string name = GetString("Name:", true);
-            string description = GetString("Description:", false);
-            IDriver driver = GetTagDriver();
+            string description = GetString("Description:");
+            string driver = GetString("Driver:", true);
             string ioaddress = GetString("I/O Address:", true);
             int scanTime = GetTagScanTime();
             bool scanEnabled = GetTagScanEnabled();
@@ -233,7 +233,7 @@ namespace DatabaseManager
             Console.WriteLine($"Added tag with name: {tag.Name}");
         }
 
-        private string GetString(string message, bool required)
+        private string GetString(string message, bool required = false)
         {
             Func<string, string> getStr = (m) =>
             {
@@ -246,53 +246,80 @@ namespace DatabaseManager
                 return getStr(message);
             else
             {
-                while (required)
+                while (true)
                 {
                     string val = getStr(message);
                     if (val != "") return val; else continue;
                 }
             }
-            return "";
         }
 
-        private double GetDouble(string message)
+        private double GetDouble(string message, bool required = false)
         {
-            Console.Clear();
-            while (true)
+            Func<string, double> getDbl = (m) =>
             {
-                Console.WriteLine(message);
-                string valStr = Console.ReadLine();
-                double val;
-                if (double.TryParse(valStr, out val))
-                    return val;
-                else
+                while (true)
                 {
-                    Console.WriteLine("Invalid value. Try again.");
-                    continue;
+                    //Console.Clear();
+                    Console.WriteLine(m);
+                    string valStr = Console.ReadLine();
+                    double val;
+                    if (valStr.Trim() == "")
+                        return -1000;
+                    else if (double.TryParse(valStr, out val))
+                        return val; 
+                    else
+                        Console.WriteLine("Value invalid");
+                }
+            };
+
+            if (!required)
+                return getDbl(message);
+            else
+            {
+                while (true)
+                {
+                    double val = getDbl(message);
+                    if (val != 1000)
+                        return val;
+                    else Console.WriteLine("Value required");
                 }
             }
         }
 
-        private int GetBinary(string message)
+        private int GetBinary(string message, bool required = false)
         {
-            Console.Clear();
-            while (true)
+
+            Func<string, int> getBin = (m) =>
             {
-                Console.WriteLine(message);
-                string valStr = Console.ReadLine();
-                int val;
-                if (int.TryParse(valStr, out val))
-                    if (val == 0 || val == 1)
-                        return val;
-                    else
-                    {
-                        Console.WriteLine("Value must be 0 or 1.");
-                        continue;
-                    }
-                else
+                while (true)
                 {
-                    Console.WriteLine("Invalid value.");
-                    continue;
+                    //Console.Clear();
+                    Console.WriteLine(m);
+                    string valStr = Console.ReadLine();
+                    int val;
+                    if (valStr.Trim() == "")
+                        return -1000;
+                    else if (int.TryParse(valStr, out val))
+                        if (val == 0 || val == 1)
+                            return val;
+                        else
+                            Console.WriteLine("Value must be 0 or 1");
+                    else
+                        Console.WriteLine("Value invalid");
+                }
+            };
+
+            if (!required)
+                return getBin(message);
+            else
+            {
+                while (true)
+                {
+                    int val = getBin(message);
+                    if (val != 1000)
+                        return val;
+                    else Console.WriteLine("Value required");
                 }
             }
         }
@@ -341,17 +368,6 @@ namespace DatabaseManager
             }
             
         }  
-
-        private IDriver GetTagDriver()
-        {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Driver*: ");
-                string driver = Console.ReadLine();
-                if (driver != "") return new SimulationDriver(); else continue;
-            }
-        }
 
         private void RemoveTag()
         {

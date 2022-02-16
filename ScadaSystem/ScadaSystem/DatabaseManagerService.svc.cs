@@ -15,7 +15,9 @@ namespace ScadaSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select DatabaseManagerService.svc or DatabaseManagerService.svc.cs at the Solution Explorer and start debugging.
     public class DatabaseManagerService : IDatabaseManagerService
     {
-        private const string XML_FILE = @"c:\scadaConfig.xml"; 
+        private const string XML_FILE = "scadaConfig.xml";
+
+        private static Dictionary<string, IDriver> drivers = new Dictionary<string, IDriver>();
 
         private static Dictionary<string, User> authenticatedUsers = new Dictionary<string, User>();
         private static readonly object usersLocker = new object();
@@ -27,6 +29,8 @@ namespace ScadaSystem
 
         public DatabaseManagerService()
         {
+            if (drivers.Count == 0)
+                drivers.Add("SimulationDriver", new SimulationDriver());
             XmlDeserialisation();
         }
 
@@ -36,8 +40,21 @@ namespace ScadaSystem
             {
                 if (!tags.ContainsKey(newTag.Name))
                 {
-                    tags.Add(newTag.Name, newTag);
-                    XmlSerialisation();
+                    if (newTag is InTag)
+                    {
+                        if (drivers.ContainsKey(((InTag)newTag).Driver))
+                        {
+                            tags.Add(newTag.Name, newTag);
+                            XmlSerialisation();
+                        }
+                    }
+                    else
+                    {
+                        tags.Add(newTag.Name, newTag);
+                        XmlSerialisation();
+                    }
+                        
+                    
                 }
             }
         }
@@ -249,7 +266,7 @@ namespace ScadaSystem
                         {
                             if (tag is InTag)
                             {
-                                simulationDriver = ((InTag)tag).Driver;
+                                //simulationDriver = ((InTag)tag).Driver;
                                 break;
                             }
                         }
