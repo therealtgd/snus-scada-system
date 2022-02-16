@@ -89,6 +89,8 @@
     <Compile Include="TrendingService.svc.cs">
       <DependentUpon>TrendingService.svc</DependentUpon>
     </Compile>
+    <Compile Include="User.cs" />
+    <Compile Include="UsersContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

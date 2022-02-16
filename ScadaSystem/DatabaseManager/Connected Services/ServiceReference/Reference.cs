@@ -16,10 +16,10 @@ namespace DatabaseManager.ServiceReference {
     public interface IDatabaseManagerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/ChangeOutputValue", ReplyAction="http://tempuri.org/IDatabaseManagerService/ChangeOutputValueResponse")]
-        void ChangeOutputValue(string name, double value);
+        bool ChangeOutputValue(string name, double value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/ChangeOutputValue", ReplyAction="http://tempuri.org/IDatabaseManagerService/ChangeOutputValueResponse")]
-        System.Threading.Tasks.Task ChangeOutputValueAsync(string name, double value);
+        System.Threading.Tasks.Task<bool> ChangeOutputValueAsync(string name, double value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/GetOutputValue", ReplyAction="http://tempuri.org/IDatabaseManagerService/GetOutputValueResponse")]
         double GetOutputValue(string name);
@@ -103,11 +103,11 @@ namespace DatabaseManager.ServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public void ChangeOutputValue(string name, double value) {
-            base.Channel.ChangeOutputValue(name, value);
+        public bool ChangeOutputValue(string name, double value) {
+            return base.Channel.ChangeOutputValue(name, value);
         }
         
-        public System.Threading.Tasks.Task ChangeOutputValueAsync(string name, double value) {
+        public System.Threading.Tasks.Task<bool> ChangeOutputValueAsync(string name, double value) {
             return base.Channel.ChangeOutputValueAsync(name, value);
         }
         

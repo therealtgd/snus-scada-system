@@ -15,7 +15,7 @@ namespace ScadaSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select DatabaseManagerService.svc or DatabaseManagerService.svc.cs at the Solution Explorer and start debugging.
     public class DatabaseManagerService : IDatabaseManagerService
     {
-        private const string XML_FILE = "scadaConfig.xml"; 
+        private const string XML_FILE = @"c:\scadaConfig.xml"; 
 
         private static Dictionary<string, User> authenticatedUsers = new Dictionary<string, User>();
         private static readonly object usersLocker = new object();
@@ -25,6 +25,11 @@ namespace ScadaSystem
 
         private static IDriver simulationDriver = new SimulationDriver();
 
+        public DatabaseManagerService()
+        {
+            XmlDeserialisation();
+        }
+
         public void AddTag(Tag newTag)
         {
             lock (tagsLocker)
@@ -32,6 +37,7 @@ namespace ScadaSystem
                 if (!tags.ContainsKey(newTag.Name))
                 {
                     tags.Add(newTag.Name, newTag);
+                    XmlSerialisation();
                 }
             }
         }
@@ -43,11 +49,12 @@ namespace ScadaSystem
                 if (tags.ContainsKey(name))
                 {
                     tags.Remove(name);
+                    XmlSerialisation();
                 }
             }
         }
 
-        public void ChangeOutputValue(string name, double value)
+        public bool ChangeOutputValue(string name, double value)
         {
             lock (tagsLocker)
             {
@@ -56,13 +63,23 @@ namespace ScadaSystem
                 
                     if (tags[name] is OutTag)
                     {
-                        if (tags[name] is AO)       
+                        if (tags[name] is AO)
+                        { 
                             ((AO)tags[name]).Value = value;
+                            XmlSerialisation();
+                            return true;
+                        }
                         else if (tags[name] is DO && (value == 1 || value == 0))
+                        {
                             ((DO)tags[name]).Value = value;
+                            XmlSerialisation();
+                            return true;
+                        }
+                        return false;
                     }
                 }
             }
+            return false;
         }
 
         public double GetOutputValue(string name)
@@ -89,6 +106,7 @@ namespace ScadaSystem
                     if (tags[name] is InTag)
                     {
                         ((InTag)tags[name]).ScanEnabled = true;
+                        XmlSerialisation();
                     }
                 }
             }
@@ -103,6 +121,7 @@ namespace ScadaSystem
                     if (tags[name] is InTag)
                     {
                         ((InTag)tags[name]).ScanEnabled = false;
+                        XmlSerialisation();
                     }
                 }
             }
@@ -131,7 +150,6 @@ namespace ScadaSystem
         {
             using (var db = new UsersContext())
             {
-                Registration("admin", "admin");
                 foreach (var user in db.Users)
                 {
                     if (username == user.Username && ValidateEncryptedData(password, user.EncryptedPassword))

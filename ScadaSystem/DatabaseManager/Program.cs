@@ -193,7 +193,7 @@ namespace DatabaseManager
             string name = GetString("Name:", true);
             string description = GetString("Description:", false);
             string ioaddress = GetString("I/O Address:", true);
-            double initialValue = GetDouble("Initial value:");
+            double initialValue = GetBinary("Initial value (0 or 1):");
 
             DO tag = new DO()
             {
@@ -237,7 +237,7 @@ namespace DatabaseManager
         {
             Func<string, string> getStr = (m) =>
             {
-                Console.Clear();
+                //Console.Clear();
                 Console.WriteLine(m);
                 return Console.ReadLine();
             };
@@ -248,8 +248,6 @@ namespace DatabaseManager
             {
                 while (required)
                 {
-                    Console.Clear();
-                    Console.WriteLine("I/O Address*: ");
                     string val = getStr(message);
                     if (val != "") return val; else continue;
                 }
@@ -275,6 +273,30 @@ namespace DatabaseManager
             }
         }
 
+        private int GetBinary(string message)
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine(message);
+                string valStr = Console.ReadLine();
+                int val;
+                if (int.TryParse(valStr, out val))
+                    if (val == 0 || val == 1)
+                        return val;
+                    else
+                    {
+                        Console.WriteLine("Value must be 0 or 1.");
+                        continue;
+                    }
+                else
+                {
+                    Console.WriteLine("Invalid value.");
+                    continue;
+                }
+            }
+        }
+
         private List<Alarm> GetTagAlarmsList()
         {
             return new List<Alarm>();
@@ -286,7 +308,7 @@ namespace DatabaseManager
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("Scan time (0=Off, 1=On): ");
+                Console.WriteLine("Scan enabled (0=Off, 1=On): ");
                 switch (Console.ReadLine())
                 {
                     case "0":
@@ -368,18 +390,28 @@ namespace DatabaseManager
         private void ChangeOutputValue()
         {
             Console.Clear();
-            Console.WriteLine("Enter tag name: ");
-            string tagName = Console.ReadLine();
-            Console.WriteLine("Enter value name: ");
+            string tagName = GetString("Tag name:", true);
+            double newVal = GetDouble("New value:");
+            if (client.ChangeOutputValue(tagName, newVal))
+                DisplayMessage($"Tag: {tagName} value set to: {newVal}", keyToContinue: true);
+            else
+                DisplayMessage("Tag not found or value invalid.", true);
+        }
+
+        private static void DisplayMessage(string message, bool keyToContinue)
+        {
+            Console.WriteLine(message);
+            if (keyToContinue)
+            {
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
         }
 
         private void Login()
         {
-            Console.Clear();
-            Console.WriteLine("Username: ");
-            string username = Console.ReadLine();
-            Console.WriteLine("Password: ");
-            string password = Console.ReadLine();
+            string username = GetString("Username:", true);
+            string password = GetString("Password:", true);
             if (username != "" && password != "")
             {
                 Tuple<bool, string> parms = client.Login(username, password);
@@ -396,16 +428,14 @@ namespace DatabaseManager
             }
         }
 
-        private static void RegisterUser()
+        private void RegisterUser()
         {
             string username = "";
             string password = "";
             bool register = true;
             while (register)
             {
-                Console.Clear();
-                Console.WriteLine("Username: ");
-                username = Console.ReadLine();
+                username = GetString("Username:", true);
                 if (username.ToLower() == "x") {
                     register = false;
                     break;
@@ -419,9 +449,7 @@ namespace DatabaseManager
             }
             while (register)
             {
-                Console.Clear();
-                Console.WriteLine("Password: ");
-                password = Console.ReadLine();
+                password = GetString("Password:", true);
                 if (password.ToLower() == "x")
                 {
                     register = false;
@@ -429,7 +457,7 @@ namespace DatabaseManager
                 }
                 if (!ValidPassword(password))
                 {
-                    Console.WriteLine("Username must be [3-9] characters long, and can't contain special characters.");
+                    Console.WriteLine("Password must be at least 8 characters long.");
                     continue;
                 }
                 break;

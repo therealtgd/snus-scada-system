@@ -12,7 +12,7 @@ namespace ScadaSystem
     public interface IDatabaseManagerService
     {
         [OperationContract]
-        void ChangeOutputValue(string name, double value);
+        bool ChangeOutputValue(string name, double value);
         [OperationContract]
         double GetOutputValue(string name);
         [OperationContract]
