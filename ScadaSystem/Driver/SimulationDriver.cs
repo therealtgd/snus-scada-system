@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ScadaModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScadaModels
+namespace Driver
 {
     // Ovo je samo primer proste implementacije simulacionog driver-a sa vrednostima signala koje se krecu od 0 do 100
     // Ukoliko u sistemu postoji i RealTime driver, preporuka je da se koristi nasledjivanje ili implementacija interfejsa, zarad uniformnog pristupa ovim driver-ima

@@ -6,8 +6,9 @@ using System.Web;
 
 namespace ScadaSystem
 {
-    public class UsersContext : DbContext
+    public class DatabaseContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<TagValue> TagValues { get; set; }
     }
 }

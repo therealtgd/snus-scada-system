@@ -8,11 +8,16 @@ using System.Text;
 
 namespace ScadaSystem
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "ITrendingService" in both code and config file together.
-    [ServiceContract]
+    [ServiceContract (CallbackContract = typeof(ITrendingCallback))]
     public interface ITrendingService
     {
         [OperationContract]
-        List<InTag> getCurrentOutValues();
+        void initTrending();
+    }
+
+    public interface ITrendingCallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void OnInputValueChanged(string tagName, double value);
     }
 }

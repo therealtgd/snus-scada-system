@@ -25,6 +25,7 @@ namespace DatabaseManager
         {
             while (showMainMenu)
             {
+                //client.Registration("admin", "admin");
                 MainMenu();
                 //isLoggedIn = true;
                 //userToken = "admin/lnXWiMvewaBUmywRhWZrjeWDFCratlQtSHrresS8F8=";
@@ -392,7 +393,7 @@ namespace DatabaseManager
         {
             string tagName = GetString("Tag name:", true);
             if (client.TurnScanOn(tagName))
-                DisplayMessage($"Turned scan off, tag: {tagName}", true);
+                DisplayMessage($"Turned scan on, tag: {tagName}", true);
             else
                 DisplayMessage($"Failed to turn scan off, tag: {tagName}", true);
         }
@@ -448,11 +449,11 @@ namespace DatabaseManager
                 if (isLoggedIn)
                 {
                     userToken = parms.Item2;
-                    Console.WriteLine("Login successful");
+                    DisplayMessage("Login successful", true);
                 }
                 else
                 {
-                    Console.WriteLine("Login failed");
+                    DisplayMessage("Login failed", true);
                 }
             }
         }
@@ -495,11 +496,11 @@ namespace DatabaseManager
             {
                 if (client.Registration(username, password))
                 {
-                    Console.WriteLine("Registration successful");
+                    DisplayMessage("Registration successful", true);
                     return;
                 }
             }
-            Console.WriteLine("Registration unsuccessful or canceled");
+            DisplayMessage("Registration unsuccessful or canceled", true);
         }
 
         private static bool ValidUsername(string username)

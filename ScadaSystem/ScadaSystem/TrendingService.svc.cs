@@ -1,10 +1,12 @@
-﻿using ScadaModels;
+﻿using Driver;
+using ScadaModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 
 namespace ScadaSystem
 {
@@ -12,12 +14,10 @@ namespace ScadaSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select TrendingService.svc or TrendingService.svc.cs at the Solution Explorer and start debugging.
     public class TrendingService : ITrendingService
     {
-        private static List<InTag> inTags = new List<InTag>();
 
-        private delegate void TagValueChangedDelegate(string name, double newValue);
-        private static event TagValueChangedDelegate onTagValueChanged;
-        private static readonly object eventLocker = new object();
-
-        public List<InTag> getCurrentOutValues() => inTags;
+        public void initTrending()
+        {
+            TagProcessing.onInputChanged += OperationContext.Current.GetCallbackChannel<ITrendingCallback>().OnInputValueChanged;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ScadaModels;
+﻿using Driver;
+using ScadaModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,44 +16,33 @@ namespace ScadaSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select DatabaseManagerService.svc or DatabaseManagerService.svc.cs at the Solution Explorer and start debugging.
     public class DatabaseManagerService : IDatabaseManagerService
     {
-        private const string XML_FILE = "scadaConfig.xml";
-
-        private static Dictionary<string, IDriver> drivers = new Dictionary<string, IDriver>();
-
         private static Dictionary<string, User> authenticatedUsers = new Dictionary<string, User>();
         private static readonly object usersLocker = new object();
-
-        private static Dictionary<string, Tag> tags = new Dictionary<string, Tag>();
-        private static readonly object tagsLocker = new object();
-
-        private static IDriver simulationDriver = new SimulationDriver();
+        
 
         public DatabaseManagerService()
         {
-            if (drivers.Count == 0)
-                drivers.Add("SimulationDriver", new SimulationDriver());
-            XmlDeserialisation();
         }
 
         public bool AddTag(Tag newTag)
         {
-            lock (tagsLocker)
+            lock (TagProcessing.tagsLocker)
             {
-                if (!tags.ContainsKey(newTag.Name))
+                if (!TagProcessing.tags.ContainsKey(newTag.Name))
                 {
                     if (newTag is InTag)
                     {
-                        if (drivers.ContainsKey(((InTag)newTag).Driver))
+                        if (TagProcessing.drivers.ContainsKey(((InTag)newTag).Driver))
                         {
-                            tags.Add(newTag.Name, newTag);
-                            XmlSerialisation();
+                            TagProcessing.tags.Add(newTag.Name, newTag);
+                            TagProcessing.XmlSerialisation();
                             return true;
                         }
                     }
                     else
                     {
-                        tags.Add(newTag.Name, newTag);
-                        XmlSerialisation();
+                        TagProcessing.tags.Add(newTag.Name, newTag);
+                        TagProcessing.XmlSerialisation();
                         return true;
                     }
                 }
@@ -62,12 +52,12 @@ namespace ScadaSystem
         
         public bool RemoveTag(string name)
         {
-            lock (tagsLocker)
+            lock (TagProcessing.tagsLocker)
             {
-                if (tags.ContainsKey(name))
+                if (TagProcessing.tags.ContainsKey(name))
                 {
-                    tags.Remove(name);
-                    XmlSerialisation();
+                    TagProcessing.tags.Remove(name);
+                    TagProcessing.XmlSerialisation();
                     return true;
                 }
             }
@@ -76,23 +66,23 @@ namespace ScadaSystem
 
         public bool ChangeOutputValue(string name, double value)
         {
-            lock (tagsLocker)
+            lock (TagProcessing.tagsLocker)
             {
-                if (tags.ContainsKey(name))
+                if (TagProcessing.tags.ContainsKey(name))
                 {
                 
-                    if (tags[name] is OutTag)
+                    if (TagProcessing.tags[name] is OutTag)
                     {
-                        if (tags[name] is AO)
+                        if (TagProcessing.tags[name] is AO)
                         { 
-                            ((AO)tags[name]).Value = value;
-                            XmlSerialisation();
+                            ((AO)TagProcessing.tags[name]).Value = value;
+                            TagProcessing.XmlSerialisation();
                             return true;
                         }
-                        else if (tags[name] is DO && (value == 1 || value == 0))
+                        else if (TagProcessing.tags[name] is DO && (value == 1 || value == 0))
                         {
-                            ((DO)tags[name]).Value = value;
-                            XmlSerialisation();
+                            ((DO)TagProcessing.tags[name]).Value = value;
+                            TagProcessing.XmlSerialisation();
                             return true;
                         }
                         return false;
@@ -104,13 +94,13 @@ namespace ScadaSystem
 
         public double GetOutputValue(string name)
         {
-            lock (tagsLocker)
+            lock (TagProcessing.tagsLocker)
             {
-                if (tags.ContainsKey(name))
+                if (TagProcessing.tags.ContainsKey(name))
                 {
-                    if (tags[name] is OutTag)
+                    if (TagProcessing.tags[name] is OutTag)
                     {
-                        return ((OutTag)tags[name]).Value;
+                        return ((OutTag)TagProcessing.tags[name]).Value;
                     }
                 }
                 return -1;
@@ -119,14 +109,14 @@ namespace ScadaSystem
 
         public bool TurnScanOn(string name)
         {
-            lock (tagsLocker)
+            lock (TagProcessing.tagsLocker)
             {
-                if (tags.ContainsKey(name))
+                if (TagProcessing.tags.ContainsKey(name))
                 {
-                    if (tags[name] is InTag)
+                    if (TagProcessing.tags[name] is InTag)
                     {
-                        ((InTag)tags[name]).ScanEnabled = true;
-                        XmlSerialisation();
+                        ((InTag)TagProcessing.tags[name]).ScanEnabled = true;
+                        TagProcessing.XmlSerialisation();
                         return true;
                     }
                 }
@@ -136,14 +126,14 @@ namespace ScadaSystem
 
         public bool TurnScanOff(string name)
         {
-            lock (tagsLocker)
+            lock (TagProcessing.tagsLocker)
             {
-                if (tags.ContainsKey(name))
+                if (TagProcessing.tags.ContainsKey(name))
                 {
-                    if (tags[name] is InTag)
+                    if (TagProcessing.tags[name] is InTag)
                     {
-                        ((InTag)tags[name]).ScanEnabled = false;
-                        XmlSerialisation();
+                        ((InTag)TagProcessing.tags[name]).ScanEnabled = false;
+                        TagProcessing.XmlSerialisation();
                         return true;
                     }
                 }
@@ -155,7 +145,7 @@ namespace ScadaSystem
         {
             string encryptedPassword = EncryptData(password);
             User user = new User(username, encryptedPassword);
-            using (var db = new UsersContext())
+            using (var db = new DatabaseContext())
             {
                 try
                 {
@@ -172,7 +162,7 @@ namespace ScadaSystem
 
         public Tuple<bool, string> Login(string username, string password)
         {
-            using (var db = new UsersContext())
+            using (var db = new DatabaseContext())
             {
                 foreach (var user in db.Users)
                 {
@@ -242,56 +232,5 @@ namespace ScadaSystem
             string randStr = Convert.ToBase64String(randVal);
             return username + randStr;
         }
-
-        public static void XmlSerialisation()
-        {
-            using (var writer = new StreamWriter(XML_FILE))
-            {
-                var serializer = new XmlSerializer(typeof(List<Tag>));
-                serializer.Serialize(writer, tags.Values.ToList());
-                Console.WriteLine("Serialization finished");
-            }
-
-        }
-
-        public void XmlDeserialisation()
-        {
-            if (!File.Exists(XML_FILE))
-            {
-                Console.WriteLine("File doesn't exist");
-            }
-            else
-            {
-                using (var reader = new StreamReader(XML_FILE))
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<Tag>));
-                    var tagsList = (List<Tag>)serializer.Deserialize(reader);
-
-                    if ((bool)(tags?.Any()))
-                    {
-                        foreach (Tag tag in tagsList)
-                        {
-                            if (tag is InTag)
-                            {
-                                //simulationDriver = ((InTag)tag).Driver;
-                                break;
-                            }
-                        }
-                    }
-                    lock (tagsLocker)
-                    { 
-                        if (tagsList != null)
-                        {
-                            tags = tagsList.ToDictionary(tag => tag.Name);
-                        }
-                    }
-                }
-            }
-            if (simulationDriver == null)
-            {
-                simulationDriver = new SimulationDriver();
-            }
-        }
-
     }
 }
