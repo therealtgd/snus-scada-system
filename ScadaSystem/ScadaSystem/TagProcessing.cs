@@ -56,39 +56,42 @@ namespace ScadaSystem
         {
             InTag tag = (InTag)obj;
             double value;
-            while (tag.ScanEnabled)
+            while (true)
             {
-                lock (locker)
+                if (tag.ScanEnabled)
                 {
-                    value = Math.Abs(drivers[tag.Driver].ReturnValue(tag.IOAddress));
-                }
-                if (tag is DI)
-                {
-                    value = value < 50 ? 0 : 1;
-                }
-                else if (tag is AI)
-                {
-                    AI t = (AI)tag;
-                    value = value < t.LowLimit ? t.LowLimit : value;
-                    value = value > t.HighLimit ? t.HighLimit : value;
-
-                    // Check for alarm
-                }
-
-                TagValue tagValue = new TagValue(tagName: tag.Name, time: DateTime.Now, value: value, type: tag.GetType().Name);
-                using (var db = new DatabaseContext())
-                {
-                    try
+                    lock (locker)
                     {
-                        db.TagValues.Add(tagValue);
-                        db.SaveChanges();
+                        value = Math.Abs(drivers[tag.Driver].ReturnValue(tag.IOAddress));
                     }
-                    catch (Exception e)
+                    if (tag is DI)
                     {
-                        Console.WriteLine("Error while writing to database");
+                        value = value < 50 ? 0 : 1;
                     }
+                    else if (tag is AI)
+                    {
+                        AI t = (AI)tag;
+                        value = value < t.LowLimit ? t.LowLimit : value;
+                        value = value > t.HighLimit ? t.HighLimit : value;
+
+                        // Check for alarm
+                    }
+
+                    TagValue tagValue = new TagValue(tagName: tag.Name, time: DateTime.Now, value: value, type: tag.GetType().Name);
+                    using (var db = new DatabaseContext())
+                    {
+                        try
+                        {
+                            db.TagValues.Add(tagValue);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error while writing to database");
+                        }
+                    }
+                    onInputChanged?.Invoke(tag.Name, value);
                 }
-                onInputChanged?.Invoke(tag.Name, value);
                 Thread.Sleep(tag.ScanTime * 1000);
             }
         }
