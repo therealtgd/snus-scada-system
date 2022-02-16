@@ -401,7 +401,13 @@ namespace DatabaseManager
 
         private void GetOutputValue()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            string tagName = GetString("Tag name:", true);
+            double val = client.GetOutputValue(tagName);
+            if (val != -1)
+                DisplayMessage($"Output Tag: {tagName}, value: {val}", keyToContinue: true);
+            else
+                DisplayMessage("Tag not found or isn't output tag.", true);
         }
 
         private void Logout()
