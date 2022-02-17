@@ -138,13 +138,13 @@ namespace DatabaseManager
 
         private void AOMenu()
         {
-            string name = GetString("Name:", true);
-            string description = GetString("Description:");
-            string ioaddress = GetString("I/O Address:", true);
-            double initValue = GetDouble("Initial value:");
-            double lowLimit = GetDouble("Low limit:");
-            double hightLimit = GetDouble("High limit:");
-            string units = GetString("Units:");
+            string name = MenuUtils.GetString("Name:", true);
+            string description = MenuUtils.GetString("Description:");
+            string ioaddress = MenuUtils.GetString("I/O Address:", true);
+            double initValue = MenuUtils.GetDouble("Initial value:");
+            double lowLimit = MenuUtils.GetDouble("Low limit:");
+            double hightLimit = MenuUtils.GetDouble("High limit:");
+            string units = MenuUtils.GetString("Units:");
 
             AO tag = new AO()
             {
@@ -161,16 +161,16 @@ namespace DatabaseManager
 
         private void AIMenu()
         {
-            string name = GetString("Name:", true);
-            string description = GetString("Description:");
-            string driver = GetString("Driver:", true);
-            string ioaddress = GetString("I/O Address:", true);
+            string name = MenuUtils.GetString("Name:", true);
+            string description = MenuUtils.GetString("Description:");
+            string driver = MenuUtils.GetString("Driver:", true);
+            string ioaddress = MenuUtils.GetString("I/O Address:", true);
             int scanTime = GetTagScanTime();
             bool scanEnabled = GetTagScanEnabled();
             List<Alarm> alarms = GetTagAlarmsList(name);
-            double lowLimit = GetDouble("Low limit:");
-            double hightLimit = GetDouble("High limit:");
-            string units = GetString("Units:");
+            double lowLimit = MenuUtils.GetDouble("Low limit:");
+            double hightLimit = MenuUtils.GetDouble("High limit:");
+            string units = MenuUtils.GetString("Units:");
 
             AI tag = new AI()
             {
@@ -190,10 +190,10 @@ namespace DatabaseManager
 
         private void DOMenu()
         {
-            string name = GetString("Name:", true);
-            string description = GetString("Description:");
-            string ioaddress = GetString("I/O Address:", true);
-            double initialValue = GetBinary("Initial value (0 or 1):");
+            string name = MenuUtils.GetString("Name:", true);
+            string description = MenuUtils.GetString("Description:");
+            string ioaddress = MenuUtils.GetString("I/O Address:", true);
+            double initialValue = MenuUtils.GetBinary("Initial value (0 or 1):");
 
             DO tag = new DO()
             {
@@ -207,10 +207,10 @@ namespace DatabaseManager
 
         private void DIMenu()
         {
-            string name = GetString("Name:", true);
-            string description = GetString("Description:");
-            string driver = GetString("Driver:", true);
-            string ioaddress = GetString("I/O Address:", true);
+            string name = MenuUtils.GetString("Name:", true);
+            string description = MenuUtils.GetString("Description:");
+            string driver = MenuUtils.GetString("Driver:", true);
+            string ioaddress = MenuUtils.GetString("I/O Address:", true);
             int scanTime = GetTagScanTime();
             bool scanEnabled = GetTagScanEnabled();
 
@@ -234,131 +234,6 @@ namespace DatabaseManager
             else
                 DisplayMessage($"Failed to add tag with name: {tag.Name}", true);
         }
-
-        private string GetString(string message, bool required = false)
-        {
-            Func<string, string> getStr = (m) =>
-            {
-                //Console.Clear();
-                Console.WriteLine(m);
-                return Console.ReadLine();
-            };
-
-            if (!required)
-                return getStr(message);
-            else
-            {
-                while (true)
-                {
-                    string val = getStr(message);
-                    if (val != "") return val; else continue;
-                }
-            }
-        }
-
-        private double GetDouble(string message, bool required = false)
-        {
-            Func<string, double> getDbl = (m) =>
-            {
-                while (true)
-                {
-                    //Console.Clear();
-                    Console.WriteLine(m);
-                    string valStr = Console.ReadLine();
-                    double val;
-                    if (valStr.Trim() == "")
-                        return -1000;
-                    else if (double.TryParse(valStr, out val))
-                        return val; 
-                    else
-                        Console.WriteLine("Value invalid");
-                }
-            };
-
-            if (!required)
-                return getDbl(message);
-            else
-            {
-                while (true)
-                {
-                    double val = getDbl(message);
-                    if (val != 1000)
-                        return val;
-                    else Console.WriteLine("Value required");
-                }
-            }
-        }
-
-        private int GetBinary(string message, bool required = false)
-        {
-
-            Func<string, int> getBin = (m) =>
-            {
-                while (true)
-                {
-                    //Console.Clear();
-                    Console.WriteLine(m);
-                    string valStr = Console.ReadLine();
-                    int val;
-                    if (valStr.Trim() == "")
-                        return -1000;
-                    else if (int.TryParse(valStr, out val))
-                        if (val == 0 || val == 1)
-                            return val;
-                        else
-                            Console.WriteLine("Value must be 0 or 1");
-                    else
-                        Console.WriteLine("Value invalid");
-                }
-            };
-
-            if (!required)
-                return getBin(message);
-            else
-            {
-                while (true)
-                {
-                    int val = getBin(message);
-                    if (val != 1000)
-                        return val;
-                    else Console.WriteLine("Value required");
-                }
-            }
-        }
-
-        private int GetInt(string message, bool required = false)
-        {
-            Func<string, int> getInt = (m) =>
-            {
-                while (true)
-                {
-                    //Console.Clear();
-                    Console.WriteLine(m);
-                    string valStr = Console.ReadLine();
-                    int val;
-                    if (valStr.Trim() == "")
-                        return -1000;
-                    else if (int.TryParse(valStr, out val))
-                        return val;
-                    else
-                        Console.WriteLine("Value invalid");
-                }
-            };
-
-            if (!required)
-                return getInt(message);
-            else
-            {
-                while (true)
-                {
-                    int val = getInt(message);
-                    if (val != 1000)
-                        return val;
-                    else Console.WriteLine("Value required");
-                }
-            }
-        }
-
 
         private List<Alarm> GetTagAlarmsList(string tagName)
         {
@@ -389,7 +264,7 @@ namespace DatabaseManager
             int type;
             while (true)
             {
-                type = GetInt("Type (0=Low, 1=High):", true);
+                type = MenuUtils.GetInt("Type (0=Low, 1=High):", true);
                 if (!Enum.IsDefined(typeof(AlarmType), type))
                 {
                     DisplayMessage("Invalid alarm type. Try again.", keyToContinue: true);
@@ -397,8 +272,8 @@ namespace DatabaseManager
                 }
                 break;
             }
-            int priority = GetInt("Priority:", true);
-            double limit = GetDouble("Limit: ", true);
+            int priority = MenuUtils.GetInt("Priority:", true);
+            double limit = MenuUtils.GetDouble("Limit: ", true);
             Alarm alarm = new Alarm() { Type = (AlarmType)type, Priority = priority, Limit = limit, TagName = tagName };
             alarmsList.Add(alarm);
             return alarmsList;
@@ -445,7 +320,7 @@ namespace DatabaseManager
 
         private void RemoveTag()
         {
-            string tagName = GetString("Tag name:", true);
+            string tagName = MenuUtils.GetString("Tag name:", true);
             if (client.RemoveTag(tagName))
                 DisplayMessage($"Removed tag with name: {tagName}", true);
             else
@@ -454,7 +329,7 @@ namespace DatabaseManager
 
         private void TurnScanOff()
         { 
-            string tagName = GetString("Tag name:", true);
+            string tagName = MenuUtils.GetString("Tag name:", true);
             if (client.TurnScanOff(tagName))
                 DisplayMessage($"Turned scan off, tag: {tagName}", true);
             else
@@ -463,7 +338,7 @@ namespace DatabaseManager
 
         private void TurnScanOn()
         {
-            string tagName = GetString("Tag name:", true);
+            string tagName = MenuUtils.GetString("Tag name:", true);
             if (client.TurnScanOn(tagName))
                 DisplayMessage($"Turned scan on, tag: {tagName}", true);
             else
@@ -475,7 +350,7 @@ namespace DatabaseManager
         private void GetOutputValue()
         {
             Console.Clear();
-            string tagName = GetString("Tag name:", true);
+            string tagName = MenuUtils.GetString("Tag name:", true);
             double val = client.GetOutputValue(tagName);
             if (val != -1)
                 DisplayMessage($"Output Tag: {tagName}, value: {val}", keyToContinue: true);
@@ -492,8 +367,8 @@ namespace DatabaseManager
         private void ChangeOutputValue()
         {
             Console.Clear();
-            string tagName = GetString("Tag name:", true);
-            double newVal = GetDouble("New value:");
+            string tagName = MenuUtils.GetString("Tag name:", true);
+            double newVal = MenuUtils.GetDouble("New value:");
             if (client.ChangeOutputValue(tagName, newVal))
                 DisplayMessage($"Tag: {tagName} value set to: {newVal}", keyToContinue: true);
             else
@@ -512,8 +387,8 @@ namespace DatabaseManager
 
         private void Login()
         {
-            string username = GetString("Username:", true);
-            string password = GetString("Password:", true);
+            string username = MenuUtils.GetString("Username:", true);
+            string password = MenuUtils.GetString("Password:", true);
             if (username != "" && password != "")
             {
                 Tuple<bool, string> parms = client.Login(username, password);
@@ -537,7 +412,7 @@ namespace DatabaseManager
             bool register = true;
             while (register)
             {
-                username = GetString("Username:", true);
+                username = MenuUtils.GetString("Username:", true);
                 if (username.ToLower() == "x") {
                     register = false;
                     break;
@@ -551,7 +426,7 @@ namespace DatabaseManager
             }
             while (register)
             {
-                password = GetString("Password:", true);
+                password = MenuUtils.GetString("Password:", true);
                 if (password.ToLower() == "x")
                 {
                     register = false;

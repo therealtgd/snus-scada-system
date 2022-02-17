@@ -66,6 +66,7 @@
     <Compile Include="Tag.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserContext.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

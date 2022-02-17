@@ -24,6 +24,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmDisplay", "AlarmDispla
 		{30E0D37D-FDE8-46B1-B180-2332A816C746} = {30E0D37D-FDE8-46B1-B180-2332A816C746}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeUnit", "RealTimeUnit\RealTimeUnit.csproj", "{63DB83B5-C769-4E2C-A49B-E2D5E4911A3A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30E0D37D-FDE8-46B1-B180-2332A816C746} = {30E0D37D-FDE8-46B1-B180-2332A816C746}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +59,10 @@ Global
 		{14D4CA4D-3311-4EAA-8BD2-E40CE226B9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14D4CA4D-3311-4EAA-8BD2-E40CE226B9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14D4CA4D-3311-4EAA-8BD2-E40CE226B9BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63DB83B5-C769-4E2C-A49B-E2D5E4911A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63DB83B5-C769-4E2C-A49B-E2D5E4911A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63DB83B5-C769-4E2C-A49B-E2D5E4911A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63DB83B5-C769-4E2C-A49B-E2D5E4911A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

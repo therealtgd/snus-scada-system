@@ -74,6 +74,7 @@
     <Content Include="AlarmDisplayService.svc" />
     <Content Include="CoreService.svc" />
     <Content Include="DatabaseManagerService.svc" />
+    <Content Include="RealTimeUnitService.svc" />
     <Content Include="TrendingService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -89,6 +90,7 @@
     </Compile>
     <Compile Include="IAlarmDisplayService.cs" />
     <Compile Include="IDatabaseManagerService.cs" />
+    <Compile Include="IRealTimeUnitService.cs" />
     <Compile Include="ITrendingService.cs" />
     <Compile Include="Migrations\202202162247050_InitialCreate.cs" />
     <Compile Include="Migrations\202202162247050_InitialCreate.designer.cs">
@@ -100,6 +102,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealTimeUnitService.svc.cs">
+      <DependentUpon>RealTimeUnitService.svc</DependentUpon>
+    </Compile>
     <Compile Include="TagProcessing.cs" />
     <Compile Include="TagValue.cs" />
     <Compile Include="TrendingService.svc.cs">
