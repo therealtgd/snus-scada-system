@@ -15,7 +15,7 @@ namespace ScadaSystem
     public class TrendingService : ITrendingService
     {
 
-        public void initTrending()
+        public void Init()
         {
             TagProcessing.onInputChanged += OperationContext.Current.GetCallbackChannel<ITrendingCallback>().OnInputValueChanged;
         }

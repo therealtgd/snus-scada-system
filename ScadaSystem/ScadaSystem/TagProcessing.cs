@@ -23,6 +23,9 @@ namespace ScadaSystem
         public delegate void InputChangedDelegate(string tagName, double value);
         public static event InputChangedDelegate onInputChanged;
 
+        public delegate void AlarmValueDelegate(Alarm alarm);
+        public static event AlarmValueDelegate onAlarmValue;
+
         private static Dictionary<string, Thread> threads = new Dictionary<string, Thread>();
 
 
@@ -75,6 +78,7 @@ namespace ScadaSystem
                         value = value > t.HighLimit ? t.HighLimit : value;
 
                         // Check for alarm
+                        CheckAlarm(t, value);
                     }
 
                     TagValue tagValue = new TagValue(tagName: tag.Name, time: DateTime.Now, value: value, type: tag.GetType().Name);
@@ -96,13 +100,35 @@ namespace ScadaSystem
             }
         }
 
+        private static void CheckAlarm(AI tag, double value)
+        {
+            using (var db = new DatabaseContext())
+            {
+                foreach (Alarm a in tag.Alarms)
+                {
+                    if ((a.Type == AlarmType.Low && value <= a.Limit) || (a.Type == AlarmType.High && value >= a.Limit))
+                    {
+                        AlarmValue alarmVal = new AlarmValue(alarm: a, time: DateTime.Now, value: value);
+                        InvokeAlarm(a);
+                        db.AlarmValues.Add(alarmVal);
+                    }
+                }
+            }
+
+           
+        }
+
+        private static void InvokeAlarm(Alarm a)
+        {
+            onAlarmValue?.Invoke(a);
+        }
 
         public static void XmlSerialisation()
         {
             using (var writer = new StreamWriter(XML_FILE))
             {
                 var serializer = new XmlSerializer(typeof(List<Tag>));
-                serializer.Serialize(writer, TagProcessing.tags.Values.ToList());
+                serializer.Serialize(writer, tags.Values.ToList());
                 Console.WriteLine("Serialization finished");
             }
 
@@ -124,7 +150,7 @@ namespace ScadaSystem
                     {
                         if (tagsList != null)
                         {
-                            TagProcessing.tags = tagsList.ToDictionary(tag => tag.Name);
+                            tags = tagsList.ToDictionary(tag => tag.Name);
                         }
                     }
                 }

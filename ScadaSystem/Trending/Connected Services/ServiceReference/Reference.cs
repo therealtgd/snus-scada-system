@@ -15,11 +15,11 @@ namespace Trending.ServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.ITrendingService", CallbackContract=typeof(Trending.ServiceReference.ITrendingServiceCallback))]
     public interface ITrendingService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrendingService/initTrending", ReplyAction="http://tempuri.org/ITrendingService/initTrendingResponse")]
-        void initTrending();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrendingService/Init", ReplyAction="http://tempuri.org/ITrendingService/InitResponse")]
+        void Init();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrendingService/initTrending", ReplyAction="http://tempuri.org/ITrendingService/initTrendingResponse")]
-        System.Threading.Tasks.Task initTrendingAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrendingService/Init", ReplyAction="http://tempuri.org/ITrendingService/InitResponse")]
+        System.Threading.Tasks.Task InitAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -57,12 +57,12 @@ namespace Trending.ServiceReference {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public void initTrending() {
-            base.Channel.initTrending();
+        public void Init() {
+            base.Channel.Init();
         }
         
-        public System.Threading.Tasks.Task initTrendingAsync() {
-            return base.Channel.initTrendingAsync();
+        public System.Threading.Tasks.Task InitAsync() {
+            return base.Channel.InitAsync();
         }
     }
 }

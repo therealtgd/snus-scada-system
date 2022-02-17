@@ -4,10 +4,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ScadaModels
 {
     [DataContract]
+    [XmlInclude(typeof(Alarm))]
     public class AI : InTag
     {
         [DataMember]

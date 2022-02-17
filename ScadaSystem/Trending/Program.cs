@@ -23,7 +23,7 @@ namespace Trending
         static void Main(string[] args)
         {
             Console.WriteLine("Trending client started...");
-            client.initTrending();
+            client.Init();
             Console.ReadKey();
         }
     }

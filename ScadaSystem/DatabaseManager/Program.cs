@@ -167,7 +167,7 @@ namespace DatabaseManager
             string ioaddress = GetString("I/O Address:", true);
             int scanTime = GetTagScanTime();
             bool scanEnabled = GetTagScanEnabled();
-            List<Alarm> alarms = GetTagAlarmsList();
+            List<Alarm> alarms = GetTagAlarmsList(name);
             double lowLimit = GetDouble("Low limit:");
             double hightLimit = GetDouble("High limit:");
             string units = GetString("Units:");
@@ -326,11 +326,83 @@ namespace DatabaseManager
             }
         }
 
-        private List<Alarm> GetTagAlarmsList()
+        private int GetInt(string message, bool required = false)
         {
-            return new List<Alarm>();
+            Func<string, int> getInt = (m) =>
+            {
+                while (true)
+                {
+                    //Console.Clear();
+                    Console.WriteLine(m);
+                    string valStr = Console.ReadLine();
+                    int val;
+                    if (valStr.Trim() == "")
+                        return -1000;
+                    else if (int.TryParse(valStr, out val))
+                        return val;
+                    else
+                        Console.WriteLine("Value invalid");
+                }
+            };
+
+            if (!required)
+                return getInt(message);
+            else
+            {
+                while (true)
+                {
+                    int val = getInt(message);
+                    if (val != 1000)
+                        return val;
+                    else Console.WriteLine("Value required");
+                }
+            }
         }
 
+
+        private List<Alarm> GetTagAlarmsList(string tagName)
+        {
+            Console.Clear();
+            List<Alarm> alarmsList = new List<Alarm>();
+            while (true)
+            {
+                Console.WriteLine("Alarm menu");
+                Console.WriteLine("1) Add alarm");
+                Console.WriteLine("x) Save & Exit");
+                Console.Write("\r\nSelect an option: ");
+
+                switch (Console.ReadLine().ToLower())
+                {
+                    case "1":
+                        alarmsList = AddAlarm(alarmsList, tagName);
+                        break;
+                    case "x":
+                        return alarmsList;
+                    default:
+                        break;
+                } 
+            }
+        }
+
+        private List<Alarm> AddAlarm(List<Alarm> alarmsList, string tagName)
+        {
+            int type;
+            while (true)
+            {
+                type = GetInt("Type (0=Low, 1=High):", true);
+                if (!Enum.IsDefined(typeof(AlarmType), type))
+                {
+                    DisplayMessage("Invalid alarm type. Try again.", keyToContinue: true);
+                    continue;
+                }
+                break;
+            }
+            int priority = GetInt("Priority:", true);
+            double limit = GetDouble("Limit: ", true);
+            Alarm alarm = new Alarm() { Type = (AlarmType)type, Priority = priority, Limit = limit, TagName = tagName };
+            alarmsList.Add(alarm);
+            return alarmsList;
+        }
 
         private bool GetTagScanEnabled()
         {

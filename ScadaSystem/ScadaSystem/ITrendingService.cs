@@ -12,7 +12,7 @@ namespace ScadaSystem
     public interface ITrendingService
     {
         [OperationContract]
-        void initTrending();
+        void Init();
     }
 
     public interface ITrendingCallback

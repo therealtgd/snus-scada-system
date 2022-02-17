@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScadaModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace ScadaSystem
     {
         public DbSet<User> Users { get; set; }
         public DbSet<TagValue> TagValues { get; set; }
+        public DbSet<AlarmValue> AlarmValues { get; set; }
     }
 }
