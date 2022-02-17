@@ -12,7 +12,9 @@ namespace ScadaSystem
 {
     public static class TagProcessing
     {
-        private const string XML_FILE = "scadaConfig.xml";
+        private const string CONFIG_FILE = "scadaConfig.xml";
+        private const string ALARMS_FILE = "alarmsLog.txt";
+        public static readonly object alarmsFileLocker = new object();
 
 
         public static Dictionary<string, Tag> tags = new Dictionary<string, Tag>();
@@ -111,8 +113,10 @@ namespace ScadaSystem
                         AlarmValue alarmVal = new AlarmValue(alarm: a, time: DateTime.Now, value: value);
                         InvokeAlarm(a);
                         db.AlarmValues.Add(alarmVal);
+                        AlarmValueSerialization(alarmVal);
                     }
                 }
+                db.SaveChanges();
             }
 
            
@@ -125,7 +129,7 @@ namespace ScadaSystem
 
         public static void XmlSerialisation()
         {
-            using (var writer = new StreamWriter(XML_FILE))
+            using (var writer = new StreamWriter(CONFIG_FILE))
             {
                 var serializer = new XmlSerializer(typeof(List<Tag>));
                 serializer.Serialize(writer, tags.Values.ToList());
@@ -136,13 +140,13 @@ namespace ScadaSystem
 
         public static void XmlDeserialisation()
         {
-            if (!File.Exists(XML_FILE))
+            if (!File.Exists(CONFIG_FILE))
             {
                 Console.WriteLine("File doesn't exist");
             }
             else
             {
-                using (var reader = new StreamReader(XML_FILE))
+                using (var reader = new StreamReader(CONFIG_FILE))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(List<Tag>));
                     var tagsList = (List<Tag>)serializer.Deserialize(reader);
@@ -157,5 +161,18 @@ namespace ScadaSystem
             }
         }
 
+        private static void AlarmValueSerialization(AlarmValue alarmValue)
+        {
+            lock (alarmsFileLocker)
+            {
+                using (var writer = new StreamWriter(ALARMS_FILE, append: true))
+                {
+                    writer.WriteLine(alarmValue.ToString());
+                    Console.WriteLine($"Alarm saved to: {ALARMS_FILE}");
+                }
+            }
+        }
+
     }
+    
 }
