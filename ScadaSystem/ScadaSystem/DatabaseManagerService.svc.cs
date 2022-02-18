@@ -32,7 +32,7 @@ namespace ScadaSystem
                 {
                     if (newTag is InTag)
                     {
-                        if (TagProcessing.drivers.ContainsKey(((InTag)newTag).Driver))
+                        if (TagProcessing.drivers.ContainsKey(((InTag)newTag).Driver) && TagProcessing.VerifyDriverAddress((InTag)newTag))
                         {
                             TagProcessing.tags.Add(newTag.Name, newTag);
                             TagProcessing.RunThread((InTag)newTag);

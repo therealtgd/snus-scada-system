@@ -37,7 +37,17 @@ namespace ScadaSystem
         {
             XmlDeserialisation();
             drivers.Add("SimulationDriver", new SimulationDriver());
+            drivers.Add("RealtimeDriver", new RealTimeDriver());
             RunSimulation();
+        }
+
+        public static bool VerifyDriverAddress(InTag newTag)
+        {
+            if (newTag.Driver == "SimulationDriver")
+                return SimulationDriver.addresses.Contains(newTag.IOAddress);
+            else if (newTag.Driver == "RealtimeDriver")
+                return RealTimeDriver.values.ContainsKey(newTag.IOAddress);
+            return false;
         }
 
         public static void RunSimulation()

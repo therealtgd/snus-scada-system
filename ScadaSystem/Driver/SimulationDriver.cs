@@ -15,7 +15,7 @@ namespace Driver
     public class SimulationDriver : IDriver
     {
         [DataMember]
-        private static readonly List<string> addresses = new List<string> { "S", "C", "R" };
+        public static readonly List<string> addresses = new List<string> { "S", "C", "R" };
 
         public double ReturnValue(string address)
         {
