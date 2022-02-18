@@ -35,6 +35,7 @@ namespace ScadaSystem
                         if (TagProcessing.drivers.ContainsKey(((InTag)newTag).Driver))
                         {
                             TagProcessing.tags.Add(newTag.Name, newTag);
+                            TagProcessing.RunThread((InTag)newTag);
                             TagProcessing.XmlSerialisation();
                             return true;
                         }
@@ -56,6 +57,8 @@ namespace ScadaSystem
             {
                 if (TagProcessing.tags.ContainsKey(name))
                 {
+                    if (TagProcessing.tags[name] is InTag)
+                        TagProcessing.RemoveThread(name);
                     TagProcessing.tags.Remove(name);
                     TagProcessing.XmlSerialisation();
                     return true;

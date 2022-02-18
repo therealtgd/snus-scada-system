@@ -105,6 +105,15 @@ namespace ScadaSystem
             }
         }
 
+        internal static void RemoveThread(string tagName)
+        {
+            if (threads.ContainsKey(tagName))
+            {
+                threads[tagName].Abort();
+                threads.Remove(tagName);
+            }    
+        }
+
         private static void CheckAlarm(AI tag, double value)
         {
             using (var db = new DatabaseContext())
