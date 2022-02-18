@@ -26,13 +26,13 @@ namespace ScadaModels
             };
 
             if (!required)
-                return getStr(message);
+                return getStr(message).Trim();
             else
             {
                 while (true)
                 {
                     string val = getStr(message);
-                    if (val != "") return val; else continue;
+                    if (val != "") return val.Trim(); else continue;
                 }
             }
         }
@@ -134,6 +134,38 @@ namespace ScadaModels
                 {
                     int val = getInt(message);
                     if (val != -1000)
+                        return val;
+                    else Console.WriteLine("Value required");
+                }
+            }
+        }
+
+        public static DateTime GetDateTime(string message, bool required = false)
+        {
+            Func<string, DateTime> getDate = (m) =>
+            {
+                while (true)
+                {
+                    Console.WriteLine(m + " (MM/DD/YYYY HH:MM:SS AM/PM):");
+                    string date = Console.ReadLine();
+                    DateTime dateOut;
+                    if (date.Trim() == "")
+                        return DateTime.Parse("1/11/1111 1:11:11 PM");
+                    if (DateTime.TryParse(date, out dateOut))
+                        return dateOut;
+                    else
+                        Console.WriteLine("Value invalid.");
+                }
+            };
+
+            if (!required)
+                return getDate(message);
+            else
+            {
+                while (true)
+                {
+                    DateTime val = getDate(message);
+                    if (val != DateTime.Parse("1/11/1111 1:11:11 PM"))
                         return val;
                     else Console.WriteLine("Value required");
                 }

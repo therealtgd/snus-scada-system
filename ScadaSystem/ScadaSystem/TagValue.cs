@@ -23,5 +23,10 @@ namespace ScadaSystem
             Value = value;
             Type = type;
         }
+
+        public override string ToString()
+        {
+            return $"TagValue: TagName={TagName}, Time={Time}, Value={Value}, Type={Type}";
+        }
     }
 }

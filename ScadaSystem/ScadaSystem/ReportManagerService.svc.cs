@@ -86,16 +86,23 @@ namespace ScadaSystem
             using (var db = new DatabaseContext())
             {
                 try
-                {
+                { 
                     var vals = db.TagValues.Where(tV => tV.Type == "AI");
                     foreach (TagValue v1 in vals)
                     {
-                        foreach (TagValue v2 in retVal)
+                        if (retVal.Count == 0)
+                            retVal.Add(v1);
+                        else
                         {
-                            if (v1.TagName == v2.TagName && v1.Time > v2.Time)
+                            foreach (TagValue v2 in retVal)
                             {
-                                retVal.Remove(v2);
-                                retVal.Add(v1);
+                                if (v1.TagName == v2.TagName && v1.Time > v2.Time)
+                                {
+                                    if (retVal.Contains(v2))
+                                        retVal.Remove(v2);
+                                    if (!retVal.Contains(v1))
+                                        retVal.Add(v1);
+                                }
                             }
                         }
                     }
@@ -117,14 +124,21 @@ namespace ScadaSystem
                 try
                 {
                     var vals = db.TagValues.Where(tV => tV.Type == "DI");
+
                     foreach (TagValue v1 in vals)
                     {
-                        foreach (TagValue v2 in retVal)
+                        if (retVal.Count == 0)
+                            retVal.Add(v1);
+                        else
                         {
-                            if (v1.TagName == v2.TagName && v1.Time > v2.Time)
+                            foreach (TagValue v2 in retVal)
                             {
-                                retVal.Remove(v2);
-                                retVal.Add(v1);
+                                if (v1.TagName == v2.TagName && v1.Time > v2.Time)
+                                {
+                                    if (retVal.Contains(v2))
+                                        retVal.Remove(v2);
+                                    retVal.Add(v1);
+                                }
                             }
                         }
                     }

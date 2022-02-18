@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ReportManagerService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:64794/ReportManagerService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:64794/ReportManagerService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:64794/ReportManagerService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ScadaModels" />
+      <xsd:import schemaLocation="http://localhost:64794/ReportManagerService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ScadaSystem" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IReportManagerService_GetAlarmsByDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarmsByDate" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetAlarmsByDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarmsByDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetAlarmsByPriority_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarmsByPriority" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetAlarmsByPriority_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarmsByPriorityResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetTagValuesByDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagValuesByDate" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetTagValuesByDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagValuesByDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetMostRecentAIValues_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostRecentAIValues" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetMostRecentAIValues_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostRecentAIValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetMostRecentDIValues_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostRecentDIValues" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetMostRecentDIValues_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostRecentDIValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetAllTagValuesByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTagValuesByID" />
+  </wsdl:message>
+  <wsdl:message name="IReportManagerService_GetAllTagValuesByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTagValuesByIDResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IReportManagerService">
+    <wsdl:operation name="GetAlarmsByDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReportManagerService/GetAlarmsByDate" message="tns:IReportManagerService_GetAlarmsByDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReportManagerService/GetAlarmsByDateResponse" message="tns:IReportManagerService_GetAlarmsByDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAlarmsByPriority">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReportManagerService/GetAlarmsByPriority" message="tns:IReportManagerService_GetAlarmsByPriority_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReportManagerService/GetAlarmsByPriorityResponse" message="tns:IReportManagerService_GetAlarmsByPriority_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTagValuesByDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReportManagerService/GetTagValuesByDate" message="tns:IReportManagerService_GetTagValuesByDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReportManagerService/GetTagValuesByDateResponse" message="tns:IReportManagerService_GetTagValuesByDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMostRecentAIValues">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReportManagerService/GetMostRecentAIValues" message="tns:IReportManagerService_GetMostRecentAIValues_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReportManagerService/GetMostRecentAIValuesResponse" message="tns:IReportManagerService_GetMostRecentAIValues_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMostRecentDIValues">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReportManagerService/GetMostRecentDIValues" message="tns:IReportManagerService_GetMostRecentDIValues_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReportManagerService/GetMostRecentDIValuesResponse" message="tns:IReportManagerService_GetMostRecentDIValues_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTagValuesByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReportManagerService/GetAllTagValuesByID" message="tns:IReportManagerService_GetAllTagValuesByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReportManagerService/GetAllTagValuesByIDResponse" message="tns:IReportManagerService_GetAllTagValuesByID_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IReportManagerService" type="tns:IReportManagerService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAlarmsByDate">
+      <soap:operation soapAction="http://tempuri.org/IReportManagerService/GetAlarmsByDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAlarmsByPriority">
+      <soap:operation soapAction="http://tempuri.org/IReportManagerService/GetAlarmsByPriority" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagValuesByDate">
+      <soap:operation soapAction="http://tempuri.org/IReportManagerService/GetTagValuesByDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMostRecentAIValues">
+      <soap:operation soapAction="http://tempuri.org/IReportManagerService/GetMostRecentAIValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMostRecentDIValues">
+      <soap:operation soapAction="http://tempuri.org/IReportManagerService/GetMostRecentDIValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTagValuesByID">
+      <soap:operation soapAction="http://tempuri.org/IReportManagerService/GetAllTagValuesByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ReportManagerService">
+    <wsdl:port name="BasicHttpBinding_IReportManagerService" binding="tns:BasicHttpBinding_IReportManagerService">
+      <soap:address location="http://localhost:64794/ReportManagerService.svc/ReportManagerService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
