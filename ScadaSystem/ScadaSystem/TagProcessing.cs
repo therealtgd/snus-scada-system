@@ -52,9 +52,12 @@ namespace ScadaSystem
 
         public static void RunThread(InTag tag)
         {
-            Thread t = new Thread(new ParameterizedThreadStart(SimulateTag));
-            threads.Add(tag.Name, t);
-            t.Start(tag);
+            if (threads.Count <= 5)
+            {
+                Thread t = new Thread(new ParameterizedThreadStart(SimulateTag));
+                threads.Add(tag.Name, t);
+                t.Start(tag);
+            }
         }
 
         public static void SimulateTag(Object obj)
