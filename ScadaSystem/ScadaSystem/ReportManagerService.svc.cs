@@ -82,7 +82,7 @@ namespace ScadaSystem
 
         public List<TagValue> GetMostRecentAIValues(bool descending = true)
         {
-            List<TagValue> retVal = new List<TagValue>();
+            Dictionary<string, TagValue> dict = new Dictionary<string, TagValue>();
             using (var db = new DatabaseContext())
             {
                 try
@@ -90,24 +90,17 @@ namespace ScadaSystem
                     var vals = db.TagValues.Where(tV => tV.Type == "AI");
                     foreach (TagValue v1 in vals)
                     {
-                        if (retVal.Count == 0)
-                            retVal.Add(v1);
-                        else
+                        if (dict.ContainsKey(v1.TagName))
                         {
-                            foreach (TagValue v2 in retVal)
-                            {
-                                if (v1.TagName == v2.TagName && v1.Time > v2.Time)
-                                {
-                                    if (retVal.Contains(v2))
-                                        retVal.Remove(v2);
-                                    if (!retVal.Contains(v1))
-                                        retVal.Add(v1);
-                                }
-                            }
+                            if (v1.Time > dict[v1.TagName].Time)
+                                dict[v1.TagName] = v1;
                         }
+                        else
+                            dict[v1.TagName] = v1;
                     }
-                    retVal = descending ? retVal.OrderByDescending(tV => tV.Time).ToList() : retVal.OrderBy(tV => tV.Time).ToList();
-                    return retVal;
+                    List<TagValue> valsList = dict.Values.ToList();
+                    valsList = descending ? valsList.OrderByDescending(tV => tV.Time).ToList() : valsList.OrderBy(tV => tV.Time).ToList();
+                    return valsList;
                 }
                 catch (Exception e)
                 {
@@ -118,32 +111,25 @@ namespace ScadaSystem
 
         public List<TagValue> GetMostRecentDIValues(bool descending = true)
         {
-            List<TagValue> retVal = new List<TagValue>();
+            Dictionary<string, TagValue> dict = new Dictionary<string, TagValue>();
             using (var db = new DatabaseContext())
             {
                 try
                 {
                     var vals = db.TagValues.Where(tV => tV.Type == "DI");
-
                     foreach (TagValue v1 in vals)
                     {
-                        if (retVal.Count == 0)
-                            retVal.Add(v1);
-                        else
+                        if (dict.ContainsKey(v1.TagName))
                         {
-                            foreach (TagValue v2 in retVal)
-                            {
-                                if (v1.TagName == v2.TagName && v1.Time > v2.Time)
-                                {
-                                    if (retVal.Contains(v2))
-                                        retVal.Remove(v2);
-                                    retVal.Add(v1);
-                                }
-                            }
+                            if (v1.Time > dict[v1.TagName].Time)
+                                dict[v1.TagName] = v1;
                         }
+                        else
+                            dict[v1.TagName] = v1;
                     }
-                    retVal = descending ? retVal.OrderByDescending(tV => tV.Time).ToList() : retVal.OrderBy(tV => tV.Time).ToList();
-                    return retVal;
+                    List<TagValue> valsList = dict.Values.ToList();
+                    valsList = descending ? valsList.OrderByDescending(tV => tV.Time).ToList() : valsList.OrderBy(tV => tV.Time).ToList();
+                    return valsList;
                 }
                 catch (Exception e)
                 {
