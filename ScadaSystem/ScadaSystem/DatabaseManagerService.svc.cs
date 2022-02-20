@@ -235,5 +235,60 @@ namespace ScadaSystem
             string randStr = Convert.ToBase64String(randVal);
             return username + randStr;
         }
+
+        public bool AddAlarm(string name, Alarm alarm)
+        {
+            lock (TagProcessing.tagsLocker)
+            {
+                if (TagProcessing.tags.ContainsKey(name))
+                {
+                    if (TagProcessing.tags[name] is AI)
+                    {
+                        ((AI)TagProcessing.tags[name]).Alarms.Add(alarm);
+                        TagProcessing.XmlSerialisation();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool RemoveAlarm(string name, int id)
+        {
+            lock (TagProcessing.tagsLocker)
+            {
+                if (TagProcessing.tags.ContainsKey(name))
+                {
+                    if (TagProcessing.tags[name] is AI)
+                    {
+                        try
+                        {
+                            ((AI)TagProcessing.tags[name]).Alarms.RemoveAt(id);
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public List<Alarm> GetTagAlarms(string tagName)
+        {
+            lock (TagProcessing.tagsLocker)
+            {
+                if (TagProcessing.tags.ContainsKey(tagName))
+                {
+                    if (TagProcessing.tags[tagName] is AI)
+                    {
+                        return ((AI)TagProcessing.tags[tagName]).Alarms;
+                    }
+                }
+            }
+            return new List<Alarm>();
+        }
     }
 }

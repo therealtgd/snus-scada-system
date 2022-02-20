@@ -23,6 +23,12 @@ namespace ScadaSystem
         bool AddTag(Tag newTag);
         [OperationContract]
         bool RemoveTag(string name);
+        [OperationContract]
+        bool AddAlarm(string name, Alarm alarm);
+        [OperationContract]
+        bool RemoveAlarm(string name, int id);
+        [OperationContract]
+        List<Alarm> GetTagAlarms(string tagName);
 
         [OperationContract]
         bool Registration(string username, string password);

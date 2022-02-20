@@ -68,6 +68,8 @@ namespace DatabaseManager
             Console.WriteLine("5) Add tag");
             Console.WriteLine("6) Remove tag");
             Console.WriteLine("7) Register user");
+            Console.WriteLine("8) Add alarm");
+            Console.WriteLine("9) Remove alarm");
             Console.WriteLine("0) Logout");
             Console.WriteLine("x) Logout & Exit");
             Console.Write("\r\nSelect an option: ");
@@ -95,6 +97,12 @@ namespace DatabaseManager
                 case "7":
                     RegisterUser();
                     break;
+                case "8":
+                    AddAlarmToTag();
+                    break;
+                case "9":
+                    RemoveAlarm();
+                    break;
                 case "0":
                     Logout();
                     break;
@@ -104,6 +112,51 @@ namespace DatabaseManager
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void AddAlarmToTag()
+        {
+            string tagName = MenuUtils.GetString("Tag name:", true);
+            int type;
+            while (true)
+            {
+                type = MenuUtils.GetInt("Type (0=Low, 1=High):", true);
+                if (!Enum.IsDefined(typeof(AlarmType), type))
+                {
+                    DisplayMessage("Invalid alarm type. Try again.", keyToContinue: true);
+                    continue;
+                }
+                break;
+            }
+            int priority = MenuUtils.GetInt("Priority:", true);
+            double limit = MenuUtils.GetDouble("Limit: ", true);
+            Alarm alarm = new Alarm() { Type = (AlarmType)type, Priority = priority, Limit = limit, TagName = tagName };
+            if (client.AddAlarm(tagName, alarm))
+                DisplayMessage("Added new alarm to tag", keyToContinue: true);
+            else
+                DisplayMessage("Failed to add new alarm to tag", keyToContinue: true);
+        }
+
+        private void RemoveAlarm()
+        {
+            string tagName = MenuUtils.GetString("Tag name:", true);
+            List<Alarm> alarms = client.GetTagAlarms(tagName).ToList();
+            if (alarms.Count != 0)
+            {
+                for (int i = 0; i < alarms.Count; i++)
+                {
+                    Console.WriteLine($"{i}. {alarms[i]}");
+                }
+                int id = MenuUtils.GetInt("Remove alarm: ", true);
+                if (client.RemoveAlarm(tagName, id))
+                    DisplayMessage("Alarm removed successfuly", true);
+                else
+                    DisplayMessage("Failed to remove alarm", true);
+            }
+            else
+            {
+                DisplayMessage("The selected tag has no alarms...", true);
             }
         }
 

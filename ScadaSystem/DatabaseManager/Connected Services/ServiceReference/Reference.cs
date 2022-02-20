@@ -57,6 +57,25 @@ namespace DatabaseManager.ServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/RemoveTag", ReplyAction="http://tempuri.org/IDatabaseManagerService/RemoveTagResponse")]
         System.Threading.Tasks.Task<bool> RemoveTagAsync(string name);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddAlarm", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddAlarmResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ScadaModels.AlarmValue))]
+        bool AddAlarm(string name, ScadaModels.Alarm alarm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/AddAlarm", ReplyAction="http://tempuri.org/IDatabaseManagerService/AddAlarmResponse")]
+        System.Threading.Tasks.Task<bool> AddAlarmAsync(string name, ScadaModels.Alarm alarm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/RemoveAlarm", ReplyAction="http://tempuri.org/IDatabaseManagerService/RemoveAlarmResponse")]
+        bool RemoveAlarm(string name, int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/RemoveAlarm", ReplyAction="http://tempuri.org/IDatabaseManagerService/RemoveAlarmResponse")]
+        System.Threading.Tasks.Task<bool> RemoveAlarmAsync(string name, int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/GetTagAlarms", ReplyAction="http://tempuri.org/IDatabaseManagerService/GetTagAlarmsResponse")]
+        ScadaModels.Alarm[] GetTagAlarms(string tagName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/GetTagAlarms", ReplyAction="http://tempuri.org/IDatabaseManagerService/GetTagAlarmsResponse")]
+        System.Threading.Tasks.Task<ScadaModels.Alarm[]> GetTagAlarmsAsync(string tagName);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDatabaseManagerService/Registration", ReplyAction="http://tempuri.org/IDatabaseManagerService/RegistrationResponse")]
         bool Registration(string username, string password);
         
@@ -149,6 +168,30 @@ namespace DatabaseManager.ServiceReference {
         
         public System.Threading.Tasks.Task<bool> RemoveTagAsync(string name) {
             return base.Channel.RemoveTagAsync(name);
+        }
+        
+        public bool AddAlarm(string name, ScadaModels.Alarm alarm) {
+            return base.Channel.AddAlarm(name, alarm);
+        }
+        
+        public System.Threading.Tasks.Task<bool> AddAlarmAsync(string name, ScadaModels.Alarm alarm) {
+            return base.Channel.AddAlarmAsync(name, alarm);
+        }
+        
+        public bool RemoveAlarm(string name, int id) {
+            return base.Channel.RemoveAlarm(name, id);
+        }
+        
+        public System.Threading.Tasks.Task<bool> RemoveAlarmAsync(string name, int id) {
+            return base.Channel.RemoveAlarmAsync(name, id);
+        }
+        
+        public ScadaModels.Alarm[] GetTagAlarms(string tagName) {
+            return base.Channel.GetTagAlarms(tagName);
+        }
+        
+        public System.Threading.Tasks.Task<ScadaModels.Alarm[]> GetTagAlarmsAsync(string tagName) {
+            return base.Channel.GetTagAlarmsAsync(tagName);
         }
         
         public bool Registration(string username, string password) {

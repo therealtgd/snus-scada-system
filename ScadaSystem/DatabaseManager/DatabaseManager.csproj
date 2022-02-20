@@ -68,6 +68,7 @@
     <None Include="Connected Services\ServiceReference\DatabaseManagerService3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\DataSources\ScadaModels.Alarm.datasource" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
