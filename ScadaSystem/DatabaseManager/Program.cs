@@ -67,9 +67,9 @@ namespace DatabaseManager
             Console.WriteLine("4) Turn scan off");
             Console.WriteLine("5) Add tag");
             Console.WriteLine("6) Remove tag");
-            Console.WriteLine("7) Register user");
-            Console.WriteLine("8) Add alarm");
-            Console.WriteLine("9) Remove alarm");
+            Console.WriteLine("7) Add alarm");
+            Console.WriteLine("8) Remove alarm");
+            Console.WriteLine("9) Register user");
             Console.WriteLine("0) Logout");
             Console.WriteLine("x) Logout & Exit");
             Console.Write("\r\nSelect an option: ");
@@ -95,13 +95,13 @@ namespace DatabaseManager
                     RemoveTag();
                     break;
                 case "7":
-                    RegisterUser();
-                    break;
-                case "8":
                     AddAlarmToTag();
                     break;
-                case "9":
+                case "8":
                     RemoveAlarm();
+                    break;
+                case "9":
+                    RegisterUser();
                     break;
                 case "0":
                     Logout();

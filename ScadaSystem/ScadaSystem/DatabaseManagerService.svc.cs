@@ -264,6 +264,7 @@ namespace ScadaSystem
                         try
                         {
                             ((AI)TagProcessing.tags[name]).Alarms.RemoveAt(id);
+                            TagProcessing.XmlSerialisation();
                             return true;
                         }
                         catch (Exception e)

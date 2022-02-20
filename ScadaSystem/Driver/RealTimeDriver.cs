@@ -12,10 +12,16 @@ namespace Driver
     {
         [DataMember]
         public static Dictionary<string, double> values = new Dictionary<string, double>();
+        private static readonly object locker = new object();
 
         public double ReturnValue(string address)
         {
-            return 0;
+            double val = 0;
+            lock (locker)
+            {
+                val = values.ContainsKey(address) ? values[address] : val;
+            }
+            return val;
         }
     }
 }
